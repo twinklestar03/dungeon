@@ -1,3 +1,10 @@
+# Project
+bin/
+obj/
+
+# MacOS 
+.DS_Store
+
 # Prerequisites
 *.d
 
