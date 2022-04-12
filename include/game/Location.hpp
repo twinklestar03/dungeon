@@ -14,7 +14,7 @@ public:
     void setRoom(std::string id);
     void setX(uint32_t x);
     void setY(uint32_t y);
-    std::string getRoomId();
+    std::string getRoomId() const;
     uint32_t getX() const;
     uint32_t getY() const;
 

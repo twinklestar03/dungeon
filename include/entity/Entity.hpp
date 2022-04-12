@@ -18,6 +18,7 @@ public:
     };
 
     Entity(std::string name, std::string descripton);
+    virtual ~Entity();
 
     void damage(uint32_t damage);
     void heal(uint32_t heal);

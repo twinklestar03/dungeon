@@ -1,10 +1,9 @@
 #pragma once
+#include <iostream>
 #include <random>
 #include <vector>
 #include <map>
 
-#include "entity/Entity.hpp"
-#include "item/Item.hpp"
 #include "game/Location.hpp"
 
 
@@ -14,13 +13,10 @@ class Portal;
 class Room {
 public:
     enum class MapObject {
-        Wall,
-        Floor,
-        Door,
-        StairsUp,
-        StairsDown,
-        Portal,
-        None
+        WALL,
+        FLOOR,
+        DOOR,
+        NONE
     };
 
     Room(std::string room_name, uint32_t length, uint32_t width);
@@ -29,7 +25,8 @@ public:
     // Do the maze generation and placing objects.
     void generate();
 
-    void addWall(const Location& loc);
+    void dumpMapInfo();
+
     bool isWall(const Location& loc);
     bool isOutside(const Location& loc);
 
