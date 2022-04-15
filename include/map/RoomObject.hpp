@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 
 class RoomObject {
 public:
@@ -12,8 +12,11 @@ public:
     RoomObject(ObjectType type);
     ~RoomObject() = default;
 
+    void setType(ObjectType type);
     ObjectType getType();
     
+    std::string getIcon();
+
     bool canWalk();
 
 private:

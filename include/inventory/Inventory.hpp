@@ -27,10 +27,10 @@ public:
     InventoryItem getBoots();
     InventoryItem getWeapon();
 
-    std::map<InventoryItem, uint32_t> getItemsMap();
+    std::vector<InventoryItem> getItemList();
 
 private:
-    std::map<InventoryItem, uint32_t> items_map;
+    std::vector<InventoryItem> item_list;
 
     InventoryItem weapon;
 

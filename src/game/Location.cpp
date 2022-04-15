@@ -1,7 +1,7 @@
 #include "game/Location.hpp"
 
 
-Location::Location(uint32_t name, uint32_t x, uint32_t y) {
+Location::Location(std::string name, uint32_t x, uint32_t y) {
     this->room_name = name;
     this->x = x;
     this->y = y;
@@ -42,11 +42,11 @@ double_t Location::distance(const Location& rsh) {
 }
 
 Location Location::operator+ (const Location &loc) const {
-    return Location(this->x + loc.x, this->y + loc.y);
+    return Location(this->room_name, this->x + loc.x, this->y + loc.y);
 }
 
 Location Location::operator- (const Location &loc) const {
-    return Location(this->x - loc.x, this->y - loc.y);
+    return Location(this->room_name, this->x - loc.x, this->y - loc.y);
 }
 
 Location Location::operator+= (const Location& rhs) {

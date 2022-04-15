@@ -14,6 +14,8 @@ public:
     Room(std::string name, std::string description, uint32_t max_x, uint32_t max_y);
     ~Room() = default;
 
+    std::shared_ptr<RoomObject> getRoomObject(Location location);
+
     void setMaxX(uint32_t max_x);
     void setMaxY(uint32_t max_y);
 

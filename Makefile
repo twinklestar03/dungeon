@@ -3,6 +3,7 @@ SRC     := ./src
 
 CC      := g++
 INCLUDE := -Iinclude
+LIB     := -lncurses -lcurses
 CFLAGS  := -Wall -std=c++14 -g
 
 GAMEDIR := src/game
@@ -23,7 +24,7 @@ EXE     := $(BIN)/dungeon.exe
 all: $(EXE)
 
 $(EXE): $(OBJS) | $(BIN)
-	$(CC) $^ -o $@ 
+	$(CC) $^ -o $@ $(LIB)
 
 %.o: %.cpp
 	$(CC) -o $@ $(CFLAGS) $(INCLUDE) -c -MMD $<

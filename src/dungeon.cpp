@@ -8,9 +8,9 @@ int main() {
     // Register game information.
     gameManager.initGame();
     // Spin up the game.
-    gameManager.tickGame();
+    gameManager.startGame();
     
-    std::cout << "Hello World!" << std::endl;
+    std::cout << "Hello World! ⚔️" << std::endl;
 
     return 0;
 }

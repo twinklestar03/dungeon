@@ -14,7 +14,9 @@ public:
         ITEM,
         MOB,
         NPC,
+        SIGN,
         PLAYER,
+        PORTAL,
         NONE
     };
 
@@ -22,38 +24,40 @@ public:
     virtual ~Entity();
 
     EntityType getType() const;
+    std::string getIcon() const;
 
     /* Handle interaction from other entity */
     virtual bool interact(Entity& entity);
+    
+    int32_t hurt(int32_t damage);
 
     /* Setter and Getter */
-
     void setLocation(Location location);
-    void setMaxHealth(uint32_t maxHealth);
-    void setHealth(uint32_t health);
-    void setAttack(uint32_t attack);
-    void setDefense(uint32_t defense);
-    void setSpeed(uint32_t speed);
+    void setMaxHealth(int32_t maxHealth);
+    void setHealth(int32_t health);
+    void setAttack(int32_t attack);
+    void setDefense(int32_t defense);
+    void setSpeed(int32_t speed);
     void setLuck(float_t luck);
 
     Location getLocation();
-    uint32_t getMaxHealth();
-    uint32_t getHealth();
-    uint32_t getAttack();
-    uint32_t getDefense();
-    uint32_t getSpeed();
+    int32_t getMaxHealth();
+    int32_t getHealth();
+    virtual int32_t getAttack();
+    int32_t getDefense();
+    int32_t getSpeed();
     float_t getLuck();
 
-private:
+protected:
     // When this flag is true, the entity will be deleted after the next update.
     EntityType type = EntityType::NONE;
 
     Location location;
 
-    uint32_t max_health = 20;
-    uint32_t health = 20;
-    uint32_t defense = 0;
-    uint32_t attack = 1;
-    uint32_t speed = 1;
+    int32_t max_health = 20;
+    int32_t health = 20;
+    int32_t defense = 0;
+    int32_t attack = 1;
+    int32_t speed = 1;
     float_t luck = 1;
 };

@@ -11,7 +11,7 @@ public:
     /* Offset mode */
     Location(uint32_t x, uint32_t y);
     /* Specific location mode  */
-    Location(uint32_t room_name, uint32_t x, uint32_t y);
+    Location(std::string room_name, uint32_t x, uint32_t y);
     
     void setRoomName(std::string room_name);
     void setX(uint32_t x);

@@ -2,55 +2,47 @@
 
 
 Inventory::Inventory() {
-    items_map = std::map<InventoryItem, uint32_t>();
+    item_list = std::vector<InventoryItem>(10);
 
-    weapon = InventoryItem(InventoryItem::ItemType::NONE, "X", "", "");
-    helmet = InventoryItem(InventoryItem::ItemType::NONE, "X", "", "");
-    chestplate = InventoryItem(InventoryItem::ItemType::NONE, "X", "", "");
-    leggings = InventoryItem(InventoryItem::ItemType::NONE, "X", "", "");
-    boots = InventoryItem(InventoryItem::ItemType::NONE, "X", "", "");
+    weapon = InventoryItem(InventoryItem::ItemType::NONE, "❌", "No Item", "");
+    helmet = InventoryItem(InventoryItem::ItemType::NONE, "❌", "No Item", "");
+    chestplate = InventoryItem(InventoryItem::ItemType::NONE, "❌", "No Item", "");
+    leggings = InventoryItem(InventoryItem::ItemType::NONE, "❌", "No Item", "");
+    boots = InventoryItem(InventoryItem::ItemType::NONE, "❌", "No Item", "");
 }
 
 Inventory::~Inventory() {
-    items_map.clear();
+    item_list.clear();
 }
 
 void Inventory::addItem(InventoryItem item) {
-    if (items_map.find(item) == items_map.end()) {
-        items_map[item] = 1;
-    } else {
-        items_map[item]++;
-    }
+    item_list.push_back(item);
 }
 
 void Inventory::removeItem(InventoryItem item) {
-    if (items_map.find(item) != items_map.end()) {
-        items_map[item]--;
-        if (items_map[item] == 0) {
-            items_map.erase(item);
+    if (item_list.size() > 0) {
+        for (auto it = item_list.begin(); it != item_list.end(); it++) {
+            if (*it == item) {
+                item_list.erase(it);
+                break;
+            }
         }
     }
 }
 
 void Inventory::removeItem(std::string item_name) {
-    for (auto it = items_map.begin(); it != items_map.end(); it++) {
-        if (((Object) it->first).getName() == item_name) {
-            items_map[it->first]--;
-            if (items_map[it->first] == 0) {
-                items_map.erase(it);
-            }
+    for (auto it = item_list.begin(); it != item_list.end(); it++) {
+        if (it->getName() == item_name) {
+            item_list.erase(it);
             break;
         }
     }
 }
 
 void Inventory::removeItem(uint32_t item_id) {
-    for (auto it = items_map.begin(); it != items_map.end(); it++) {
-        if (((Object)it->first).getUniqueId() == item_id) {
-            items_map[it->first]--;
-            if (items_map[it->first] == 0) {
-                items_map.erase(it);
-            }
+    for(auto it = item_list.begin(); it != item_list.end(); it++) {
+        if (it->getUniqueId() == item_id) {
+            item_list.erase(it);
             break;
         }
     }
@@ -106,6 +98,6 @@ InventoryItem Inventory::getWeapon() {
     return this->weapon;
 }  
 
-std::map<InventoryItem, uint32_t> Inventory::getItemsMap() {
-    return this->items_map;
+std::vector<InventoryItem> Inventory::getItemList() {
+    return this->item_list;
 }
