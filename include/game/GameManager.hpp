@@ -1,13 +1,12 @@
 #pragma once
 #include <queue>
 #include <vector>
+#include <memory>
 
 #include "entity/Entity.hpp"
-#include "entity/Mob.hpp"
 #include "entity/Player.hpp"
 
-#include "event/Event.hpp"
-#include "game/Room.hpp"
+#include "map/Room.hpp"
 
 
 class GameManager {
@@ -17,30 +16,45 @@ public:
 
     static GameManager& getInstance();
 
-    /* Entity Management */    
-    // Spawn Entity at specific location.
-    void spawnEntity(Location location, Entity& entitiy);
+    /* Deal with all game initial setting       */
+    /* Including create player, create map etc  */
+    void initGame();
 
-    // Get entities around a location.
-    std::unique_ptr<std::vector<Entity>> getSurroundingEntities(Location location, uint32_t radius);
-
-    /* Event Handling */
-    void processEvents();
-
-    /* General */
-    void init();
-    void start();
     /* Tick the game, process events, entites think */
-    void tick();
-    /* Render informations */
-    void render();
+    void tickGame();
+
+    /* Start the game process */
+    void startGame();
+
+    /* Create a new player */
+    void createPlayer();
+
+    /* Create a map, which include several different rooms */
+    void createMap();
+
+    /* Deal with player's iteraction with objects in that room */
+    void handleInteraction();
+
+    void pushActionMessage(std::string);
+
+    /* Check is movement valid and modify entity's location 
+     * And collision detection on Entity and RoomObject.
+     */
+    void handleMovement(std::shared_ptr<Entity> entity, Location offset);
+
+    /* Location handling */
+    Room& findRoomByName(std::string name) const;
+    bool isValidLocation(Location location);
 
 private:
-    static std::unique_ptr<GameManager> sInstance;
-    std::vector<Room> rooms;
+    static std::unique_ptr<GameManager> g_instance;
 
-    std::unique_ptr<Player> local_player;
-    std::vector<std::unique_ptr<Entity>> entity_list;
+    std::shared_ptr<Room> current_room;
+    std::vector<std::shared_ptr<Room>> room_list;
 
-    std::queue<Event> event_queue;
+    std::shared_ptr<Player> player;
+    std::vector<std::shared_ptr<Object>> object_list;
+
+    /* For action messages */
+    std::queue<std::string> action_queue;
 };

@@ -5,21 +5,28 @@
 
 class Object {
 public:
-    Object();
+    Object() = default;
     Object(std::string name, std::string description);
-    Object(uint32_t index, std::string name, std::string description);
     ~Object() = default;
 
-    void setIndex(uint32_t index);
     void setName(std::string name);
     void setDescription(std::string description);
 
-    uint32_t getIndex();
     std::string getName();
     std::string getDescription();
 
+    uint32_t getUniqueId() const;
+
+    bool operator== (Object &rhs) const;
+
+    bool operator< (Object &rhs) const;
+
 private:
-    uint32_t index;
+    static uint32_t global_id_counter;
+
     std::string name;
     std::string description;
+
+    /* Use to identify object equality, generate at object construction */
+    uint32_t unique_id;
 };

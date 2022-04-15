@@ -1,8 +1,8 @@
 #include "game/Location.hpp"
 
 
-Location::Location(uint32_t roomId, uint32_t x, uint32_t y) {
-    this->roomId = roomId;
+Location::Location(uint32_t name, uint32_t x, uint32_t y) {
+    this->room_name = name;
     this->x = x;
     this->y = y;
 }
@@ -12,10 +12,9 @@ Location::Location(uint32_t x, uint32_t y) {
     this->y = y;
 }
 
-void Location::setRoom(std::string index) {
-    this->roomId = index;
+void Location::setRoomName(std::string name) {
+    this->room_name = name;
 }
-
 
 void Location::setX(uint32_t x) {
     this->x = x;
@@ -25,8 +24,8 @@ void Location::setY(uint32_t y) {
     this->y = y;
 }
 
-std::string Location::getRoomId() const {
-    return this->roomId;
+std::string Location::getRoomName() const {
+    return this->room_name;
 }
 
 uint32_t Location::getX() const {

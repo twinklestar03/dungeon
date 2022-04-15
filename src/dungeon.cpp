@@ -6,9 +6,9 @@
 int main() {
     GameManager &gameManager = GameManager::getInstance();
     // Register game information.
-    gameManager.init();
+    gameManager.initGame();
     // Spin up the game.
-    gameManager.start();
+    gameManager.tickGame();
     
     std::cout << "Hello World!" << std::endl;
 

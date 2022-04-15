@@ -1,13 +1,13 @@
 #include "game/GameManager.hpp"
 
 
-std::unique_ptr<GameManager> GameManager::sInstance = nullptr;
+std::unique_ptr<GameManager> GameManager::g_instance = nullptr;
 
 GameManager& GameManager::getInstance() {
-    if (sInstance == nullptr) {
-        sInstance = std::make_unique<GameManager>();
+    if (g_instance == nullptr) {
+        g_instance = std::make_unique<GameManager>();
     }
-    return *sInstance;
+    return *g_instance;
 }
 
 GameManager::GameManager() {
@@ -16,38 +16,50 @@ GameManager::GameManager() {
 GameManager::~GameManager() {
 }
 
-void GameManager::init() {
-    // Setup the stage
-    std::unique_ptr<Room> room = std::make_unique<Room>("Test", 10, 10);
-    std::cerr << "Test Room Creation.\n";
-    room->generate();
-    room->dumpMapInfo();
+void GameManager::createMap() {
+    
 }
 
-void GameManager::start() {
-
-}   
-
-void GameManager::tick() {
-    // TODO: Player's move.
-
-    // TODO: Iterate through all entities and call their tick function.
-    /*for (auto it = this->entity_list.begin(); it != this->entity_list.end(); it++) {
-        // Purge deleted entity.
-        Entity& entity = **it;
-        if ( entity.isDeleted() ) {
-            this->entity_list.erase(it);
-            continue;
-        }
-        
-        if (entity.getType() == Entity::EntityType::MOB) {
-            Mob& mob = dynamic_cast<Mob&>(entity);
-            mob.think();
-        }
-    }*/
-
-    render();
+void GameManager::createPlayer() {
+    //player = std::make_shared<Player>();
 }
 
-void GameManager::render() {
+void GameManager::handleInteraction() {
+
+}
+
+void GameManager::initGame() {
+    createMap();
+    createPlayer();
+}
+
+void GameManager::tickGame() {
+    handleInteraction();
+}
+
+void GameManager::startGame() {
+    
+}
+
+Room& GameManager::findRoomByName(std::string name) const {
+    for (auto& room : room_list) {
+        if (room->getName() == name) {
+            return *room;
+        }
+    }
+    return *current_room;
+}
+
+bool GameManager::isValidLocation(Location location) {
+    const Room& room = findRoomByName(location.getRoomName());
+
+    if (location.getX() > room.getMaxX() || location.getY() > room.getMaxY()) {
+        return false;
+    }
+
+    if (location.getX() < 0 || location.getY() < 0) {
+        return false;
+    }
+
+    return true;
 }

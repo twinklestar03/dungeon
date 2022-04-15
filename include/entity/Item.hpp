@@ -6,21 +6,8 @@
 
 class Item : public Entity {
 public:
-    Item(std::string character, std::string name, std::string descripton);
+    Item(std::string name, std::string descripton, Location location);
     ~Item();
 
-    EntityType getType() override;
-
-    void setCharacter(std::string character);
-    void setPrice(int price);
-    void setWeight(int weight);
-
-    std::string getCharacter();
-    uint32_t getPrice();
-    uint32_t getWeight();
-
-private:
-    std::string character;  // For icon.
-    uint32_t weight;
-    uint32_t price;
+    bool interact(Entity& entity) override; 
 };

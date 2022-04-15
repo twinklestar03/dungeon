@@ -8,13 +8,15 @@ class Location {
 public:
     Location() = default;
     ~Location() = default;
+    /* Offset mode */
     Location(uint32_t x, uint32_t y);
-    Location(uint32_t roomId, uint32_t x, uint32_t y);
+    /* Specific location mode  */
+    Location(uint32_t room_name, uint32_t x, uint32_t y);
     
-    void setRoom(std::string id);
+    void setRoomName(std::string room_name);
     void setX(uint32_t x);
     void setY(uint32_t y);
-    std::string getRoomId() const;
+    std::string getRoomName() const;
     uint32_t getX() const;
     uint32_t getY() const;
 
@@ -26,6 +28,6 @@ public:
     Location operator-=(const Location& rhs);
 
 private:
-    std::string roomId;
+    std::string room_name;
     uint32_t x, y;
 };
