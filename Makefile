@@ -3,7 +3,7 @@ SRC     := ./src
 
 CC      := g++
 INCLUDE := -Iinclude
-LIB     := -lncurses -lcurses
+LIB     := -lncursesw
 CFLAGS  := -Wall -std=c++14 -g
 
 GAMEDIR := src/game
