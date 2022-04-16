@@ -38,4 +38,8 @@ obj/
 *.out
 *.app
 
+# IDE Configuration
 .vscode
+
+# Debugger generated files
+.gdb_history
