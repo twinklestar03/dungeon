@@ -20,7 +20,7 @@ public:
     uint32_t getX() const;
     uint32_t getY() const;
 
-    double_t distance(const Location& rsh);
+    double distance(const Location& rsh);
 
     Location operator+(const Location& rhs) const;
     Location operator-(const Location& rhs) const;

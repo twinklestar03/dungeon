@@ -36,9 +36,11 @@ uint32_t Location::getY() const {
     return this->y;
 }
 
-double_t Location::distance(const Location& rsh) {
-    return abs( sqrt( (rsh.x - this->x) * (rsh.x - this->x)
-            - (rsh.y - this->y) * (rsh.y - this->y) ) );
+double Location::distance(const Location& rsh) {
+    uint32_t dx = this->x - rsh.getX();
+    uint32_t dy = this->y - rsh.getY();
+    return sqrt(dx * dx + dy * dy);
+    //return max;
 }
 
 Location Location::operator+ (const Location &loc) const {

@@ -14,8 +14,6 @@ public:
     void setInventory(const Inventory&& inventory);
     Inventory getInventory();
 
-    int32_t getAttack() override;
-
     bool interact(Entity& entity) override; 
 
 private:

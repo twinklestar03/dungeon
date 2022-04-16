@@ -1,5 +1,5 @@
 #pragma once
-
+#include <memory>
 #include <vector>
 #include <string>
 
@@ -29,9 +29,14 @@ public:
     /* Handle interaction from other entity */
     virtual bool interact(Entity& entity);
     
+    /* Deal amount of damage to this entity */
     int32_t hurt(int32_t damage);
 
+    /* Calculate current strike damege. */
+    int32_t getDamage();
+
     /* Setter and Getter */
+
     void setLocation(Location location);
     void setMaxHealth(int32_t maxHealth);
     void setHealth(int32_t health);
@@ -40,10 +45,12 @@ public:
     void setSpeed(int32_t speed);
     void setLuck(float_t luck);
 
+    /* Base attribute getters. */
+
     Location getLocation();
     int32_t getMaxHealth();
     int32_t getHealth();
-    virtual int32_t getAttack();
+    int32_t getAttack();
     int32_t getDefense();
     int32_t getSpeed();
     float_t getLuck();

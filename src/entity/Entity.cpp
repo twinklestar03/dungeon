@@ -1,10 +1,14 @@
 #include "entity/Entity.hpp"
 
+#include "game/GameManager.hpp"
+
+
 Entity::Entity(EntityType type, std::string name, std::string description, Location location) 
     : Object(name, description), type(type), location(location) {
 }
 
 Entity::~Entity() {
+    GameManager::getInstance().pushActionMessage("DEBUG: Entity (" + this->getName() + ") is being deleted.");
 }
 
 Entity::EntityType Entity::getType() const {
@@ -95,4 +99,16 @@ bool Entity::interact(Entity& entity) {
 int32_t Entity::hurt(int32_t damage) {
     this->health -= damage;
     return this->health;
+}
+
+int32_t Entity::getDamage() {
+    std::default_random_engine generator( time(NULL) );
+    std::uniform_real_distribution<float> unif(0.0, 1.0);
+    float final_luck = unif(generator) * this->luck;
+
+    if (final_luck > 0.5) {
+        return attack * 2;
+    }
+
+    return attack;
 }

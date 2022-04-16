@@ -12,17 +12,23 @@ public:
     void setName(std::string name);
     void setDescription(std::string description);
 
-    std::string getName();
-    std::string getDescription();
+    /* If current object need to be purge out from global object list */
+    /* Set this flag */
+    void setDeleted(bool deleted);
 
+    std::string getName() const;
+    std::string getDescription() const;
     uint32_t getUniqueId() const;
+    bool isDeleted() const;
 
     bool operator== (Object &rhs) const;
-
     bool operator< (Object &rhs) const;
 
 private:
     static uint32_t global_id_counter;
+
+    /* For global object removal */
+    bool is_deleted = false;
 
     std::string name;
     std::string description;

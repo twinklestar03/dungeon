@@ -6,8 +6,6 @@
 #include "entity/Player.hpp"
 #include "inventory/Inventory.hpp"
 
-#include "game/GameManager.hpp"
-
 
 class Mob : public Entity {
 public:
@@ -23,8 +21,6 @@ public:
 
     void setInventory(Inventory inventory);
     Inventory& getInventory() const;
-
-    uint32_t calculateDamage(Entity& target);
 
     // Implement different thinking strategies for mobs.
     virtual void think(std::vector<std::shared_ptr<Object>> objects);

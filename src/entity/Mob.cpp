@@ -1,5 +1,7 @@
 #include "entity/Mob.hpp"
 
+#include "game/GameManager.hpp"
+
 
 Mob::Mob(std::string name, std::string description, Location location)
     : Entity(EntityType::MOB, name, description, location) {
@@ -8,11 +10,6 @@ Mob::Mob(std::string name, std::string description, Location location)
 
 Inventory& Mob::getInventory() const {
     return *inventory;
-}
-
-uint32_t Mob::calculateDamage(Entity& target) {
-    // TODO: level scaling based on target's level.
-    return 0;
 }
 
 void Mob::think(std::vector<std::shared_ptr<Object>> objects) {
@@ -27,7 +24,7 @@ bool Mob::interact(Entity& entity) {
             return false;
         }
 
-        int32_t damage = player->getAttack();
+        int32_t damage = player->getDamage();
         int32_t remain_health = this->hurt(damage);
         std::cout << "You hit " << this->getName() << " for " << damage << " damage." << std::endl;
 
@@ -35,9 +32,11 @@ bool Mob::interact(Entity& entity) {
             GameManager::getInstance().pushActionMessage("😎😎😎🈹 You killed " + this->getName());
             this->setHealth(0);
             this->brain = ThinkState::DEAD;
+
+            this->setDeleted(true);
         } 
         else {
-            GameManager::getInstance().pushActionMessage(this->getName() + "has " + std::to_string(this->getHealth()) + " ❤️health left");
+            GameManager::getInstance().pushActionMessage(this->getName() + " has " + std::to_string(this->getHealth()) + " ❤️ health left");
             this->brain = ThinkState::IDLE;
         }
 

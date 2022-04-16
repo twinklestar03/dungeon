@@ -15,16 +15,24 @@ void Object::setDescription(std::string description) {
     this->description = description;
 }
 
-std::string Object::getName() {
+void Object::setDeleted(bool deleted) {
+    this->is_deleted = deleted;
+}
+
+std::string Object::getName() const {
     return this->name;
 }
 
-std::string Object::getDescription() {
+std::string Object::getDescription() const {
     return this->description;
 }
 
 uint32_t Object::getUniqueId() const {
     return this->unique_id;
+}
+
+bool Object::isDeleted() const {
+    return this->is_deleted;
 }
 
 bool Object::operator< (Object &rhs) const {

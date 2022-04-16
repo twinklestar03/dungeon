@@ -3,8 +3,7 @@
 #include <vector>
 #include <memory>
 #include <iostream>
-#include <ncurses.h>
-#include <curses.h>
+#include <ncursesw/ncurses.h>
 
 #include "entity/Entity.hpp"
 #include "entity/Player.hpp"
@@ -83,15 +82,15 @@ private:
     static uint32_t FRAME_STAT_LOC_Y;
     static uint32_t FRAME_STAT_WIDTH;
     static uint32_t FRAME_STAT_HEIGHT;
-    static uint32_t FRAME_ACT_LOC_X;
-    static uint32_t FRAME_ACT_LOC_Y;
-    static uint32_t FRAME_ACT_WIDTH;
-    static uint32_t FRAME_ACT_HEIGHT;
+    static uint32_t FRAME_INT_LOC_X;
+    static uint32_t FRAME_INT_LOC_Y;
+    static uint32_t FRAME_INT_WIDTH;
+    static uint32_t FRAME_INT_HEIGHT;
 
     WINDOW *map_window;
     WINDOW *message_window;
     WINDOW *status_window;
-    WINDOW *action_window;
+    WINDOW *interact_window;
 
     static std::unique_ptr<GameManager> g_instance;
 
@@ -103,8 +102,8 @@ private:
 
     /* For action messages */
     std::queue<std::string> messsage_queue;
-    std::vector<std::string> action_options;
+    std::vector<std::string> interact_options;
     // If all data is prepared, then set frame_ready = true;
     bool frame_ready;
-    std::vector<std::vector<std::string>> frame_data;
+    std::vector<std::vector<std::string>> frame_map_data;
 };
