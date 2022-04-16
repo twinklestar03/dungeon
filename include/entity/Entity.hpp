@@ -21,6 +21,7 @@ public:
     };
 
     Entity(EntityType type, std::string name, std::string descripton, Location location);
+    Entity(EntityType type, std::string icon, std::string name, std::string descripton, Location location);
     virtual ~Entity();
 
     EntityType getType() const;
@@ -60,6 +61,8 @@ protected:
     EntityType type = EntityType::NONE;
 
     Location location;
+
+    std::string icon = "";
 
     int32_t max_health = 20;
     int32_t health = 20;

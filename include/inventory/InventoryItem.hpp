@@ -17,7 +17,7 @@ public:
         NONE,
     };
 
-    InventoryItem() = default;
+    InventoryItem();
     InventoryItem(ItemType type, std::string icon, std::string name, std::string description);
     ~InventoryItem() = default;
 
@@ -29,6 +29,6 @@ public:
     bool operator< (const InventoryItem &rmhs) const;
 
 private:
-    std::string icon;
     ItemType item_type;
+    std::string icon;
 };

@@ -18,6 +18,7 @@ public:
     };
 
     Mob(std::string name, std::string description, Location location);
+    Mob(std::string icon, std::string name, std::string description, Location location);
 
     void setInventory(Inventory inventory);
     Inventory& getInventory() const;

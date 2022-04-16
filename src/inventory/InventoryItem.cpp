@@ -1,8 +1,15 @@
 #include "inventory/InventoryItem.hpp"
 
 
+InventoryItem::InventoryItem() {
+    item_type = ItemType::NONE;
+    icon = "❌";
+    setName("No Item");
+    setDescription("");
+}
+
 InventoryItem::InventoryItem(ItemType type, std::string icon, std::string name, std::string description)
-    : item_type(type), icon(icon), Object(name, description) {
+    : Object(name, description), item_type(type), icon(icon) {
 }
 
 void InventoryItem::setItemType(ItemType type) {

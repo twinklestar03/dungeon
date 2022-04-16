@@ -5,6 +5,13 @@
 
 Mob::Mob(std::string name, std::string description, Location location)
     : Entity(EntityType::MOB, name, description, location) {
+    std::cerr << "DEBUG: Mob (" << this->getName() << ") is being created." << std::endl;
+    inventory = std::make_unique<Inventory>();
+}
+
+Mob::Mob(std::string icon, std::string name, std::string description, Location location)
+    : Entity(EntityType::MOB, icon, name, description, location) {
+    std::cerr << "DEBUG: Mob (" << this->getName() << ") is being created." << std::endl;
     inventory = std::make_unique<Inventory>();
 }
 

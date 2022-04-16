@@ -87,7 +87,7 @@ void GameManager::createMap() {
     room_list.push_back(lobby);
 
     // Generate entities (Mobs, Portals, NPCs).
-    std::shared_ptr<Mob> mob = std::make_shared<Mob>("Slime", "A normal silme", Location(lobby->getName(), 3, 3));
+    std::shared_ptr<Mob> mob = std::make_shared<Mob>("🤢", "Slime", "A normal silme", Location(lobby->getName(), 3, 3));
     object_list.push_back(mob);
     
     std::shared_ptr<Room> mob_room_1 = std::make_shared<Room>("Mob Room 1", "Room Object", 20, 10);

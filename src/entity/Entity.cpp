@@ -7,6 +7,10 @@ Entity::Entity(EntityType type, std::string name, std::string description, Locat
     : Object(name, description), type(type), location(location) {
 }
 
+Entity::Entity(EntityType type, std::string icon, std::string name, std::string description, Location location) 
+    : Object(name, description), type(type), location(location), icon(icon) {
+}
+
 Entity::~Entity() {
     GameManager::getInstance().pushActionMessage("DEBUG: Entity (" + this->getName() + ") is being deleted.");
 }
@@ -16,6 +20,10 @@ Entity::EntityType Entity::getType() const {
 }
 
 std::string Entity::getIcon() const {
+    if (icon != "") {
+        return icon;
+    }
+    
     switch(type) {
         case EntityType::DOOR:
             return "🚪";
