@@ -9,6 +9,10 @@ Door::Door(std::string name, std::string description, Location location, std::st
     this->key_name = key_name;
 }
 
+Door::~Door() {
+    GameManager::getInstance().pushActionMessage("DEBUG: Door (" + this->getName() + ") is being deleted.");
+}
+
 void Door::setKeyName(std::string key_name) {
     this->key_name = key_name;
 }
@@ -23,6 +27,7 @@ bool Door::interact(Entity& entity) {
         if (player.getInventory().hasItem(key_name)) {
             player.getInventory().removeItem(key_name);
             GameManager::getInstance().pushActionMessage("🔓 You have unlocked the door.");
+            this->setDeleted(true);
             return true;
         } else {
             GameManager::getInstance().pushActionMessage("🔑 You need a key to open this door.");

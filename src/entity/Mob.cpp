@@ -1,5 +1,5 @@
 #include "entity/Mob.hpp"
-
+#include "entity/Player.hpp"
 #include "game/GameManager.hpp"
 
 
@@ -13,7 +13,11 @@ Mob::Mob(std::string icon, std::string name, std::string description, Location l
     inventory = std::make_unique<Inventory>();
 }
 
-Inventory& Mob::getInventory() const {
+void Mob::setInventory(const Inventory& inventory) {
+    this->inventory = std::make_unique<Inventory>(inventory);
+}
+
+Inventory& Mob::getInventory() {
     return *inventory;
 }
 
@@ -38,18 +42,13 @@ bool Mob::interact(Entity& entity) {
 
         if (remain_health <= 0) {
             GameManager::getInstance().pushActionMessage("😎😎😎🈹 You killed " + this->getName());
-            this->setHealth(0);
             this->brain = ThinkState::DEAD;
-
-            this->setDeleted(true);
         } 
         else {
             GameManager::getInstance().pushActionMessage(this->getName() + " has " + std::to_string(this->getHealth()) + " ❤️ health left");
             this->brain = ThinkState::IDLE;
         }
-
         return true;
-
     }
     return false;
 }

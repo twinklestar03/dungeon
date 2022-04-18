@@ -7,6 +7,7 @@
 class InventoryItem : public Object {
 public:
     enum class ItemType {
+        KEY,
         POTION,
         WEAPON,
         HELMET,
@@ -26,7 +27,7 @@ public:
 
     virtual void use(std::shared_ptr<Entity> target);
 
-    bool operator< (const InventoryItem &rmhs) const;
+    bool operator< (const InventoryItem &rhs) const;
 
 private:
     ItemType item_type;

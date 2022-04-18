@@ -27,6 +27,8 @@ public:
     Location operator+=(const Location& rhs);
     Location operator-=(const Location& rhs);
 
+    bool operator==(const Location& rhs) const;
+
 private:
     std::string room_name;
     uint32_t x, y;

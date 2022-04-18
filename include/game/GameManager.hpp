@@ -44,6 +44,9 @@ public:
     /* Draw information in message queue */
     void drawMessageQueue();
 
+    /* Draw player information */
+    void drawPlayerStatus();
+
     /* Draw everythings */
     void drawAll();
 
@@ -52,6 +55,9 @@ public:
 
     /* Create a map, which include several different rooms */
     void createMap();
+
+    /* Add Entity */
+    void addEntity(std::shared_ptr<Entity> entity);
 
     /* Deal with player's iteraction with objects in that room */
     void handleInteraction();

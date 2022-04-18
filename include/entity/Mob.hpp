@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include "entity/Entity.hpp"
-#include "entity/Player.hpp"
 #include "inventory/Inventory.hpp"
 
 
@@ -20,8 +19,8 @@ public:
     Mob(std::string name, std::string description, Location location);
     Mob(std::string icon, std::string name, std::string description, Location location);
 
-    void setInventory(Inventory inventory);
-    Inventory& getInventory() const;
+    void setInventory(const Inventory& inventory);
+    Inventory& getInventory();
 
     // Implement different thinking strategies for mobs.
     virtual void think(std::vector<std::shared_ptr<Entity>> entity_list);

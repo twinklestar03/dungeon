@@ -1,7 +1,10 @@
 #include "game/GameManager.hpp"
 
 #include "entity/Mob.hpp"
+#include "entity/Door.hpp"
 #include "entity/Portal.hpp"
+
+#include "inventory/Key.hpp"
 
 
 std::unique_ptr<GameManager> GameManager::g_instance = nullptr;
@@ -44,9 +47,10 @@ GameManager::~GameManager() {
 }
 
 void GameManager::createWindows() {
+    // Adaptive scaling.
     // Top right.
     FRAME_STAT_WIDTH = 55;
-    FRAME_STAT_HEIGHT = FRAME_HEIGHT / 3;
+    FRAME_STAT_HEIGHT = FRAME_HEIGHT / 5;
     FRAME_STAT_LOC_X = FRAME_WIDTH - FRAME_STAT_WIDTH;
     FRAME_STAT_LOC_Y = 0;
     // Bottom right.
@@ -97,9 +101,15 @@ void GameManager::createMap() {
     object_list.push_back(mob);
     mob = std::make_shared<Mob>("🤢", "Slime", "A normal silme", Location(lobby->getName(), 8, 4));
     object_list.push_back(mob);
+
     mob = std::make_shared<Mob>("🤢", "Slime", "A normal silme", Location(lobby->getName(), 12, 9));
+    std::shared_ptr<Key> key = std::make_shared<Key>("A old key", "A key seems old.");
+    mob->getInventory().addItem(*key);
     object_list.push_back(mob);
-    
+
+    std::shared_ptr<Door> door = std::make_shared<Door>("Door", "Door Object", Location(lobby->getName(), 5, 5), key->getName());
+    object_list.push_back(door);
+
     std::shared_ptr<Portal> portal_1 = std::make_shared<Portal>("To Room 1", "Portal Object", Location(lobby->getName(), 10, 10), Location(mob_room_1->getName(), 3, 3));
     object_list.push_back(portal_1);
 }
@@ -108,8 +118,6 @@ void GameManager::createPlayer() {
     std::string name = "Test Player";
 
     player = std::make_shared<Player>(name, "Player", Location(room_list[0]->getName(), 2, 2));
-
-    // TODO: Ask attributes
 }
 
 void GameManager::handleInteraction() {
@@ -167,6 +175,9 @@ void GameManager::handleInteraction() {
             for (size_t i = 0; i < assessible.size(); i++) {
                 std::string action;
                 switch( assessible[i]->getType() ) {
+                    case Entity::EntityType::CHEST:
+                        action = "🫳Loot";
+                        break;
                     case Entity::EntityType::DOOR:
                         action = "🔓Open";
                         break;
@@ -213,7 +224,11 @@ void GameManager::handleInteraction() {
 
         }
         else if (ch == 'i') {
-            
+            interact_options.clear();
+            for (size_t i = 0; i < player->getInventory().getItems().size(); i++) {
+                interact_options.push_back(
+                    std::to_string(i) + ". " + player->getInventory().getItems().at(i).getName());
+            }
         }
 
         return;
@@ -226,7 +241,7 @@ void GameManager::drawMap() {
         pushActionMessage("[ERROR] [GameManager::drawMap]: Room not found.");
         return;
     }
-    
+
     // Draw RoomObject.
     int32_t lx = player->getLocation().getX() - FRAME_MAP_WIDTH / 2 - 1;
     int32_t rx = player->getLocation().getX() + FRAME_MAP_WIDTH / 2;
@@ -313,20 +328,43 @@ void GameManager::drawMessageQueue() {
     wnoutrefresh(message_window);
 }
 
+void GameManager::drawPlayerStatus() {
+    wborder(status_window, '|', '|', '-', '-', '+', '+', '+', '+');
+    uint32_t line = 1, indent = 4;
+
+    mvwaddstr(status_window, line++, indent, "Player Status:");
+    mvwaddstr(status_window, line++, indent * 2, std::string("❤️ Health: " + std::to_string(player->getHealth()) + "/" + std::to_string(player->getMaxHealth())).c_str());
+    mvwaddstr(status_window, line++, indent * 2, std::string("🛡 Defense: " + std::to_string(player->getDefense())).c_str());
+    mvwaddstr(status_window, line++, indent * 2, std::string("🍀 Luck: " + std::to_string(player->getLuck())).c_str());
+
+    wnoutrefresh(status_window);
+}
+
 void GameManager::drawAll() {
     wclear(map_window);
     wclear(interact_window);
     wclear(message_window);
-    drawMessageQueue();
+
     drawInteractionMenu();
     drawMap();
-    
+    drawMessageQueue();
+    drawPlayerStatus();
+
     doupdate();
 }
 
 bool GameManager::handleMovement(std::shared_ptr<Entity> entity, Location offset) {
     if (entity == nullptr) {
         return false;
+    }
+
+    // Checking object collidsion.
+    for (auto it = object_list.begin(); it != object_list.end(); it++) {
+        if ((**it).getLocation() == entity->getLocation() + offset) {
+            if ((**it).getType() == Entity::EntityType::DOOR) {
+                return false;
+            }
+        }
     }
 
     std::shared_ptr<RoomObject> room_object = findRoomByName(entity->getLocation().getRoomName())
@@ -387,4 +425,8 @@ std::shared_ptr<Room> GameManager::findRoomByName(std::string name) const {
     }
     
     return nullptr;
+}
+
+void GameManager::addEntity(std::shared_ptr<Entity> entity) {
+    object_list.push_back(entity);
 }

@@ -16,6 +16,10 @@ void Player::setInventory(const Inventory&& inventory) {
     this->inventory = std::make_unique<Inventory>(std::move(inventory));
 }
 
+Inventory& Player::getInventory() {
+    return *inventory;
+}
+
 bool Player::interact(Entity& entity) {
     if (entity.getType() == EntityType::MOB) {
         auto mob = dynamic_cast<Mob*>(&entity);

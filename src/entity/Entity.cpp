@@ -1,6 +1,8 @@
+#include "entity/Chest.hpp"
 #include "entity/Entity.hpp"
-
 #include "game/GameManager.hpp"
+
+#include <math.h>
 
 
 Entity::Entity(EntityType type, std::string name, std::string description, Location location) 
@@ -25,6 +27,8 @@ std::string Entity::getIcon() const {
     }
     
     switch(type) {
+        case EntityType::CHEST:
+            return "📦";
         case EntityType::DOOR:
             return "🚪";
         case EntityType::ITEM:
@@ -106,15 +110,39 @@ bool Entity::interact(Entity& entity) {
 
 int32_t Entity::hurt(int32_t damage) {
     this->health -= damage;
+
+    // Trigger onDeath event.
+    if (this->health <= 0) {
+
+        // Dropping items if the entity is a mob.
+        if (this->type == EntityType::MOB) {
+            Mob* mob = dynamic_cast<Mob*>(this);
+
+            if (mob != nullptr) {
+                GameManager::getInstance().addEntity(
+                    std::make_shared<Chest>(
+                        "Chest",
+                        "Loots from " + this->getName(),
+                        mob->getLocation(),
+                        mob->getInventory()
+                    )
+                );
+            }
+        }
+        
+        this->setHealth(0);
+        this->setDeleted(true);
+    }
+
     return this->health;
 }
 
 int32_t Entity::getDamage() {
     std::default_random_engine generator( time(NULL) );
-    std::uniform_real_distribution<float> unif(0.0, 1.0);
-    std::uniform_real_distribution<float> uni_atk(2, 2.5);
-    float final_luck = unif(generator) * this->luck;
-
+    std::uniform_real_distribution<double> unif(0.0, 1.0);
+    std::uniform_int_distribution<int32_t> uni_atk(2, 3);
+    double final_luck = unif(generator) * this->luck;
+    
     if (final_luck > 0.3) {
         return attack * uni_atk(generator);
     }

@@ -10,6 +10,7 @@
 class Entity : public Object {
 public:
     enum class EntityType {
+        CHEST,
         DOOR,
         ITEM,
         MOB,
@@ -27,17 +28,6 @@ public:
     EntityType getType() const;
     std::string getIcon() const;
 
-    /* Handle interaction from other entity */
-    virtual bool interact(Entity& entity);
-    
-    /* Deal amount of damage to this entity */
-    int32_t hurt(int32_t damage);
-
-    /* Calculate current strike damege. */
-    int32_t getDamage();
-
-    /* Setter and Getter */
-
     void setLocation(Location location);
     void setMaxHealth(int32_t maxHealth);
     void setHealth(int32_t health);
@@ -46,8 +36,6 @@ public:
     void setSpeed(int32_t speed);
     void setLuck(float_t luck);
 
-    /* Base attribute getters. */
-
     Location getLocation();
     int32_t getMaxHealth();
     int32_t getHealth();
@@ -55,6 +43,15 @@ public:
     int32_t getDefense();
     int32_t getSpeed();
     float_t getLuck();
+
+    /* Deal amount of damage to this entity */
+    int32_t hurt(int32_t damage);
+
+    /* Calculate current strike damege. */
+    int32_t getDamage();
+
+    /* Handle interaction from other entity */
+    virtual bool interact(Entity& entity);
 
 protected:
     // When this flag is true, the entity will be deleted after the next update.

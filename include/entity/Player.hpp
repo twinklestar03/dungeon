@@ -12,7 +12,7 @@ public:
 
     void setInventory(const Inventory& inventory);
     void setInventory(const Inventory&& inventory);
-    Inventory getInventory();
+    Inventory& getInventory();
 
     bool interact(Entity& entity) override; 
 

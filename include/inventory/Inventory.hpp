@@ -1,19 +1,23 @@
 #pragma once
-#include <map>
+#include <vector>
 
 #include "inventory/InventoryItem.hpp"
 
+#define INVENTORY_SIZE 10
 
 class Inventory {
 public:
     Inventory();
     ~Inventory();
 
+    bool isEmpty();
+
     bool hasItem(InventoryItem item);
     bool hasItem(std::string item_name);
     bool hasItem(uint32_t item_id);
 
-    void addItem(InventoryItem item);
+    /* Return true if item was added. */
+    bool addItem(InventoryItem item);
 
     void removeItem(InventoryItem item);
     void removeItem(std::string item_name);
@@ -31,7 +35,9 @@ public:
     InventoryItem getBoots();
     InventoryItem getWeapon();
 
-    std::vector<InventoryItem> getItemList();
+    std::vector<InventoryItem> getItems();
+
+    void clear();
 
 private:
     std::vector<InventoryItem> item_list;

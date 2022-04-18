@@ -62,3 +62,7 @@ Location Location::operator-= (const Location& rhs) {
     this->y -= rhs.y;
     return *this;
 }
+
+bool Location::operator== (const Location& rhs) const {
+    return this->room_name == rhs.room_name && this->x == rhs.x && this->y == rhs.y;
+}

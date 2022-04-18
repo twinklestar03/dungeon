@@ -20,7 +20,7 @@ InventoryItem::ItemType InventoryItem::getItemType() {
     return item_type;
 }
 
-void InventoryItem::use(std::shared_ptr<Entity> target) {
+void InventoryItem::use(std::shared_ptr<Entity> user) {
 }
 
 bool InventoryItem::operator< (const InventoryItem &rhs) const {

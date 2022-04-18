@@ -2,17 +2,21 @@
 
 
 Inventory::Inventory() {
-    item_list = std::vector<InventoryItem>(10);
+    item_list = std::vector<InventoryItem>();
 
-    weapon = InventoryItem(InventoryItem::ItemType::NONE, "❌", "No Item", "");
-    helmet = InventoryItem(InventoryItem::ItemType::NONE, "❌", "No Item", "");
-    chestplate = InventoryItem(InventoryItem::ItemType::NONE, "❌", "No Item", "");
-    leggings = InventoryItem(InventoryItem::ItemType::NONE, "❌", "No Item", "");
-    boots = InventoryItem(InventoryItem::ItemType::NONE, "❌", "No Item", "");
+    weapon = InventoryItem();
+    helmet = InventoryItem();
+    chestplate = InventoryItem();
+    leggings = InventoryItem();
+    boots = InventoryItem();
 }
 
 Inventory::~Inventory() {
     item_list.clear();
+}
+
+bool Inventory::isEmpty() {
+    return item_list.empty();
 }
 
 bool Inventory::hasItem(InventoryItem item) {
@@ -42,17 +46,19 @@ bool Inventory::hasItem(uint32_t item_id) {
     return false;
 }
 
-void Inventory::addItem(InventoryItem item) {
-    item_list.push_back(item);
+bool Inventory::addItem(InventoryItem item) {
+    if (item_list.size() < INVENTORY_SIZE) {
+        item_list.push_back(item);
+        return true;
+    }
+    return false;
 }
 
 void Inventory::removeItem(InventoryItem item) {
-    if (item_list.size() > 0) {
-        for (auto it = item_list.begin(); it != item_list.end(); it++) {
-            if (*it == item) {
-                item_list.erase(it);
-                break;
-            }
+    for (auto it = item_list.begin(); it != item_list.end(); it++) {
+        if (*it == item) {
+            item_list.erase(it);
+            break;
         }
     }
 }
@@ -125,6 +131,10 @@ InventoryItem Inventory::getWeapon() {
     return this->weapon;
 }  
 
-std::vector<InventoryItem> Inventory::getItemList() {
+std::vector<InventoryItem> Inventory::getItems() {
     return this->item_list;
+}
+
+void Inventory::clear() {
+    this->item_list.clear();
 }
