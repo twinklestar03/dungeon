@@ -9,6 +9,10 @@ public:
     Inventory();
     ~Inventory();
 
+    bool hasItem(InventoryItem item);
+    bool hasItem(std::string item_name);
+    bool hasItem(uint32_t item_id);
+
     void addItem(InventoryItem item);
 
     void removeItem(InventoryItem item);

@@ -24,6 +24,8 @@ bool Player::interact(Entity& entity) {
             int32_t remain_health = this->hurt(damage);
             GameManager::getInstance().pushActionMessage(
                 "You been hit for " + std::to_string(damage) + " damage by " + mob->getIcon() + " " + mob->getName());
+            GameManager::getInstance().pushActionMessage(
+                "Your remain ❤️ " + std::to_string(remain_health));
         }
     }
     return true;

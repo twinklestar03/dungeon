@@ -7,7 +7,6 @@
 
 #include "entity/Entity.hpp"
 #include "entity/Player.hpp"
-#include "entity/Mob.hpp"
 
 #include "map/Room.hpp"
 
@@ -64,7 +63,7 @@ public:
      * And collision detection on Entity and RoomObject. */
     bool handleMovement(std::shared_ptr<Entity> entity, Location offset);
 
-    Room& findRoomByName(std::string name) const;
+    std::shared_ptr<Room> findRoomByName(std::string name) const;
     bool isValidLocation(Location location);
 
 private:

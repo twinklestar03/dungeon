@@ -12,20 +12,20 @@
 
 class Room : public Object {
 public:
-    Room(std::string name, std::string description, uint32_t max_x, uint32_t max_y);
+    Room(std::string name, std::string description, uint32_t max_h, uint32_t max_w);
     ~Room() = default;
 
     std::shared_ptr<RoomObject> getRoomObject(Location location);
 
-    void setMaxX(uint32_t max_x);
-    void setMaxY(uint32_t max_y);
+    void setMaxHeight(uint32_t max_h);
+    void setMaxWidth(uint32_t max_w);
 
-    uint32_t getMaxX() const;
-    uint32_t getMaxY() const;
+    uint32_t getMaxHeight() const;
+    uint32_t getMaxWidth() const;
 
     bool operator== (Room &rhs);
 
 private:
-    uint32_t max_x, max_y;
+    uint32_t max_h, max_w;
     std::vector<std::vector<std::shared_ptr<RoomObject>>> room_objects;
 };

@@ -5,13 +5,11 @@
 
 Mob::Mob(std::string name, std::string description, Location location)
     : Entity(EntityType::MOB, name, description, location) {
-    std::cerr << "DEBUG: Mob (" << this->getName() << ") is being created." << std::endl;
     inventory = std::make_unique<Inventory>();
 }
 
 Mob::Mob(std::string icon, std::string name, std::string description, Location location)
     : Entity(EntityType::MOB, icon, name, description, location) {
-    std::cerr << "DEBUG: Mob (" << this->getName() << ") is being created." << std::endl;
     inventory = std::make_unique<Inventory>();
 }
 
@@ -19,8 +17,11 @@ Inventory& Mob::getInventory() const {
     return *inventory;
 }
 
-void Mob::think(std::vector<std::shared_ptr<Object>> objects) {
+void Mob::think(std::vector<std::shared_ptr<Entity>> entity_list) {
     // TODO: AI Logic.
+
+    // TODO: Search for nearby player.
+    // TODO: Attack player if capable.
 }
 
 bool Mob::interact(Entity& entity) {

@@ -112,11 +112,11 @@ int32_t Entity::hurt(int32_t damage) {
 int32_t Entity::getDamage() {
     std::default_random_engine generator( time(NULL) );
     std::uniform_real_distribution<float> unif(0.0, 1.0);
+    std::uniform_real_distribution<float> uni_atk(2, 2.5);
     float final_luck = unif(generator) * this->luck;
 
-    if (final_luck > 0.5) {
-        return attack * 2;
+    if (final_luck > 0.3) {
+        return attack * uni_atk(generator);
     }
-
     return attack;
 }

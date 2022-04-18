@@ -24,9 +24,9 @@ public:
     Inventory& getInventory() const;
 
     // Implement different thinking strategies for mobs.
-    virtual void think(std::vector<std::shared_ptr<Object>> objects);
+    virtual void think(std::vector<std::shared_ptr<Entity>> entity_list);
 
-    bool interact(Entity& entity) override; 
+    virtual bool interact(Entity& entity) override; 
 
 private:
     std::unique_ptr<Inventory> inventory;

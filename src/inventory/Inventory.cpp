@@ -15,6 +15,33 @@ Inventory::~Inventory() {
     item_list.clear();
 }
 
+bool Inventory::hasItem(InventoryItem item) {
+    for (auto& i : item_list) {
+        if (i == item) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Inventory::hasItem(std::string item_name) {
+    for (auto& i : item_list) {
+        if (i.getName() == item_name) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Inventory::hasItem(uint32_t item_id) {
+    for (auto& i : item_list) {
+        if (i.getUniqueId() == item_id) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void Inventory::addItem(InventoryItem item) {
     item_list.push_back(item);
 }
