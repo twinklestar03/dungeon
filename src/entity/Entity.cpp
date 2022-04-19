@@ -129,6 +129,11 @@ int32_t Entity::hurt(int32_t damage) {
                 );
             }
         }
+
+        if (this->type == EntityType::PLAYER) {
+            GameManager::getInstance().pushActionMessage(L"🤣🤣🤣 You died. 🤔🤔🤔 ");
+            GameManager::getInstance().gameOver();
+        }
         
         this->setHealth(0);
         this->setDeleted(true);

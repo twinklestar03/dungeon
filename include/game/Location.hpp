@@ -9,17 +9,18 @@ public:
     Location() = default;
     ~Location() = default;
     /* Offset mode */
-    Location(uint32_t y, uint32_t x);
+    Location(int32_t y, int32_t x);
     /* Specific location mode  */
-    Location(std::wstring room_name, uint32_t y, uint32_t x);
+    Location(std::wstring room_name, int32_t y, int32_t x);
     
     void setRoomName(std::wstring room_name);
-    void setX(uint32_t x);
-    void setY(uint32_t y);
+    void setX(int32_t x);
+    void setY(int32_t y);
     std::wstring getRoomName() const;
-    uint32_t getX() const;
-    uint32_t getY() const;
+    int32_t getX() const;
+    int32_t getY() const;
 
+    Location normailize();
     double distance(const Location& rsh);
 
     Location operator+(const Location& rhs) const;
@@ -31,5 +32,5 @@ public:
 
 private:
     std::wstring room_name;
-    uint32_t x, y;
+    int32_t x, y;
 };

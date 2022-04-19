@@ -32,6 +32,9 @@ public:
     /* Start the game process */
     void startGame();
 
+    /* Game over */
+    void gameOver();
+
     /* Create window. */
     void createWindows();
 
@@ -59,6 +62,9 @@ public:
     /* Add Entity */
     void addEntity(std::shared_ptr<Entity> entity);
 
+    /* Get Player instance */
+    Player& getPlayer();
+
     /* Deal with player's iteraction with objects in that room */
     void handleInteraction();
 
@@ -68,6 +74,7 @@ public:
      * Check is movement valid and modify entity's location 
      * And collision detection on Entity and RoomObject. */
     bool handleMovement(std::shared_ptr<Entity> entity, Location offset);
+    bool handleMovement(Entity* entity, Location offset);
 
     std::shared_ptr<Room> findRoomByName(std::wstring name) const;
     bool isValidLocation(Location location);

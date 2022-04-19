@@ -22,10 +22,22 @@ Inventory& Mob::getInventory() {
 }
 
 void Mob::think(std::vector<std::shared_ptr<Entity>> entity_list) {
-    // TODO: AI Logic.
+    // Search for nearby player.
+    Entity& target = GameManager::getInstance().getPlayer();
 
-    // TODO: Search for nearby player.
-    // TODO: Attack player if capable.
+    Location normalized = (target.getLocation() - this->getLocation()).normailize();
+    GameManager::getInstance().pushActionMessage(L"[DEBUG] (Mob::think) Normalized: ");
+    GameManager::getInstance().pushActionMessage(L"[DEBUG] y: " + std::to_wstring(normalized.getY()) + L" x: " + std::to_wstring(normalized.getX()));
+    // Unable to find a path to the player.
+    if (!GameManager::getInstance().handleMovement(this, (target.getLocation() - this->getLocation()).normailize() )) {
+        return;
+    }
+    
+    // Attack player if capable.
+    if (this->getLocation().distance(target.getLocation()) <= 1.5) {
+        target.interact(*this);
+    }
+    
 }
 
 bool Mob::interact(Entity& entity) {

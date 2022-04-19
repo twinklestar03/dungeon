@@ -126,6 +126,15 @@ void GameManager::createPlayer() {
     player = std::make_shared<Player>(name, L"Player", Location(room_list[0]->getName(), 2, 2));
 }
 
+void GameManager::addEntity(std::shared_ptr<Entity> entity) {
+    object_list.push_back(entity);
+}
+
+Player& GameManager::getPlayer() {
+    return *player;
+}
+
+
 void GameManager::handleInteraction() {
     // Draw interaction window.
     interact_options.clear();
@@ -343,7 +352,7 @@ void GameManager::drawMap() {
             if (i < 0 || j < 0 || i >= max_y || j >= max_x) {
                 frame_map_data[fi][fj] = L"";
             } else {
-                frame_map_data[fi][fj] = room->getRoomObject({(uint32_t)i, (uint32_t)j})->getIcon();
+                frame_map_data[fi][fj] = room->getRoomObject({i, j})->getIcon();
             }
         }
     }
@@ -429,6 +438,10 @@ void GameManager::drawAll() {
 }
 
 bool GameManager::handleMovement(std::shared_ptr<Entity> entity, Location offset) {
+    return handleMovement(entity.get(), offset);
+}
+
+bool GameManager::handleMovement(Entity* entity, Location offset) {
     if (entity == nullptr) {
         return false;
     }
@@ -488,6 +501,30 @@ void GameManager::startGame() {
     }
 }
 
+void GameManager::gameOver() {
+    delwin(map_window);
+    delwin(interact_window);
+    delwin(message_window);
+    delwin(status_window);
+
+    // Center the fucking ascii art.
+    WINDOW* final = newwin(FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT / 2 - 3, FRAME_WIDTH / 2 - 31 );
+    
+    wborder(final, '|', '|', '-', '-', '+', '+', '+', '+');
+    mvwaddwstr(final, 0, 0, L"   ___       .    __   __ .____    ___   __    __ .____  .___ ");
+    mvwaddwstr(final, 1, 0, L" .'   \\     /|    |    |  /      .'   `. |     |  /      /   \\");
+    mvwaddwstr(final, 2, 0, L" |         /  \\   |\\  /|  |__.   |     |  \\    /  |__.   |__-'");
+    mvwaddwstr(final, 3, 0, L" |    _   /---'\\  | \\/ |  |      |     |   \\  /   |      |  \\ ");
+    mvwaddwstr(final, 4, 0, L"  `.___|,'      \\ /    /  /----/  `.__.'    \\/    /----/ /   \\");
+    wrefresh(final);
+
+    char ch = mvwgetch(final, 1, 1);
+    while (ch != 'q') {
+        ch = mvwgetch(final, 1, 1);
+    }
+    endwin();
+}
+
 void GameManager::pushActionMessage(std::wstring message) {
     messsage_queue.push(message);
 }
@@ -502,6 +539,3 @@ std::shared_ptr<Room> GameManager::findRoomByName(std::wstring name) const {
     return nullptr;
 }
 
-void GameManager::addEntity(std::shared_ptr<Entity> entity) {
-    object_list.push_back(entity);
-}
