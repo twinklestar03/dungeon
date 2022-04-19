@@ -9,14 +9,14 @@ public:
     Location() = default;
     ~Location() = default;
     /* Offset mode */
-    Location(uint32_t x, uint32_t y);
+    Location(uint32_t y, uint32_t x);
     /* Specific location mode  */
-    Location(std::string room_name, uint32_t x, uint32_t y);
+    Location(std::wstring room_name, uint32_t y, uint32_t x);
     
-    void setRoomName(std::string room_name);
+    void setRoomName(std::wstring room_name);
     void setX(uint32_t x);
     void setY(uint32_t y);
-    std::string getRoomName() const;
+    std::wstring getRoomName() const;
     uint32_t getX() const;
     uint32_t getY() const;
 
@@ -30,6 +30,6 @@ public:
     bool operator==(const Location& rhs) const;
 
 private:
-    std::string room_name;
+    std::wstring room_name;
     uint32_t x, y;
 };

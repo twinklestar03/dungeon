@@ -62,14 +62,14 @@ public:
     /* Deal with player's iteraction with objects in that room */
     void handleInteraction();
 
-    void pushActionMessage(std::string);
+    void pushActionMessage(std::wstring);
 
     /* 
      * Check is movement valid and modify entity's location 
      * And collision detection on Entity and RoomObject. */
     bool handleMovement(std::shared_ptr<Entity> entity, Location offset);
 
-    std::shared_ptr<Room> findRoomByName(std::string name) const;
+    std::shared_ptr<Room> findRoomByName(std::wstring name) const;
     bool isValidLocation(Location location);
 
 private:
@@ -106,9 +106,8 @@ private:
     std::vector<std::shared_ptr<Entity>> object_list;
 
     /* For action messages */
-    std::queue<std::string> messsage_queue;
-    std::vector<std::string> interact_options;
+    std::queue<std::wstring> messsage_queue;
+    std::vector<std::wstring> interact_options;
     // If all data is prepared, then set frame_ready = true;
     bool frame_ready;
-    std::vector<std::vector<std::string>> frame_map_data;
 };

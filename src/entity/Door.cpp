@@ -4,20 +4,20 @@
 #include "game/GameManager.hpp"
 
 
-Door::Door(std::string name, std::string description, Location location, std::string key_name)
+Door::Door(std::wstring name, std::wstring description, Location location, std::wstring key_name)
     : Entity(EntityType::DOOR, name, description, location) {
     this->key_name = key_name;
 }
 
 Door::~Door() {
-    GameManager::getInstance().pushActionMessage("DEBUG: Door (" + this->getName() + ") is being deleted.");
+    GameManager::getInstance().pushActionMessage(L"DEBUG: Door (" + this->getName() + L") is being deleted.");
 }
 
-void Door::setKeyName(std::string key_name) {
+void Door::setKeyName(std::wstring key_name) {
     this->key_name = key_name;
 }
 
-std::string Door::getKeyName() {
+std::wstring Door::getKeyName() {
     return key_name;
 }
 
@@ -26,11 +26,11 @@ bool Door::interact(Entity& entity) {
         Player& player = dynamic_cast<Player&>(entity);
         if (player.getInventory().hasItem(key_name)) {
             player.getInventory().removeItem(key_name);
-            GameManager::getInstance().pushActionMessage("🔓 You have unlocked the door.");
+            GameManager::getInstance().pushActionMessage(L"🔓 You have unlocked the door.");
             this->setDeleted(true);
             return true;
         } else {
-            GameManager::getInstance().pushActionMessage("🔑 You need a key to open this door.");
+            GameManager::getInstance().pushActionMessage(L"🔑 You need a key to open this door.");
             return false;
         }
     }

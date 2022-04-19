@@ -1,9 +1,10 @@
 #pragma once
+#include <memory>
 #include <vector>
 
 #include "inventory/InventoryItem.hpp"
 
-#define INVENTORY_SIZE 10
+#define INVENTORY_SIZE 50
 
 class Inventory {
 public:
@@ -13,14 +14,15 @@ public:
     bool isEmpty();
 
     bool hasItem(InventoryItem item);
-    bool hasItem(std::string item_name);
+    bool hasItem(std::wstring item_name);
     bool hasItem(uint32_t item_id);
 
     /* Return true if item was added. */
     bool addItem(InventoryItem item);
+    bool addItem(std::shared_ptr<InventoryItem> item);
 
     void removeItem(InventoryItem item);
-    void removeItem(std::string item_name);
+    void removeItem(std::wstring item_name);
     void removeItem(uint32_t item_id);
 
     void setHelmet(InventoryItem helmet);
@@ -35,12 +37,12 @@ public:
     InventoryItem getBoots();
     InventoryItem getWeapon();
 
-    std::vector<InventoryItem> getItems();
+    std::vector<std::shared_ptr<InventoryItem>> getItems();
 
     void clear();
 
 private:
-    std::vector<InventoryItem> item_list;
+    std::vector<std::shared_ptr<InventoryItem>> item_list;
 
     InventoryItem weapon;
 

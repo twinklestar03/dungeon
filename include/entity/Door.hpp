@@ -7,15 +7,15 @@
 
 class Door : public Entity {
 public:
-    Door(std::string name, std::string description, Location location, std::string key_name);
+    Door(std::wstring name, std::wstring description, Location location, std::wstring key_name);
     ~Door();
 
-    void setKeyName(std::string key_name);
+    void setKeyName(std::wstring key_name);
 
-    std::string getKeyName();
+    std::wstring getKeyName();
 
     bool interact(Entity& entity) override;
 
 private:
-    std::string key_name;
+    std::wstring key_name;
 };

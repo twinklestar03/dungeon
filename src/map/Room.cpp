@@ -1,7 +1,7 @@
 #include "map/Room.hpp"
 
 
-Room::Room(std::string name, std::string description, uint32_t max_h, uint32_t max_w) : Object(name, description), max_h(max_h), max_w(max_w) {
+Room::Room(std::wstring name, std::wstring description, uint32_t max_h, uint32_t max_w) : Object(name, description), max_h(max_h), max_w(max_w) {
     room_objects = std::vector<std::vector<std::shared_ptr<RoomObject>>>(max_h, std::vector<std::shared_ptr<RoomObject>>(max_w));
 
     for (uint32_t i = 0; i < max_h; i++) {
@@ -22,11 +22,19 @@ Room::Room(std::string name, std::string description, uint32_t max_h, uint32_t m
     }
 }
 
+void Room::setRoomObject(Location location, RoomObject& room_object) {
+    room_objects[location.getY()][location.getX()] = std::make_shared<RoomObject>(room_object);
+}
+
+void Room::setRoomObject(Location location, std::shared_ptr<RoomObject> room_object) {
+    room_objects[location.getY()][location.getX()] = room_object;
+}
+
 std::shared_ptr<RoomObject> Room::getRoomObject(Location location) {
-    if (location.getX() < 0 || location.getX() >= max_h || location.getY() < 0 || location.getY() >= max_w) {
+    if (location.getY() < 0 || location.getY() >= max_h || location.getX() < 0 || location.getX() >= max_w) {
         return nullptr;
     }
-    return room_objects[location.getX()][location.getY()];
+    return room_objects[location.getY()][location.getX()];
 }
 
 void Room::setMaxHeight(uint32_t max_h) {

@@ -4,17 +4,14 @@
 #include "game/GameManager.hpp"
 
 
-Chest::Chest(std::string name, std::string description, Location location) : Entity(EntityType::CHEST, name, description, location) {
+Chest::Chest(std::wstring name, std::wstring description, Location location) : Entity(EntityType::CHEST, name, description, location) {
     this->inventory = std::make_unique<Inventory>();
 }
 
-Chest::Chest(std::string name, std::string description, Location location, const Inventory& inventory) : Entity(EntityType::CHEST, name, description, location) {
+Chest::Chest(std::wstring name, std::wstring description, Location location, Inventory& inventory) : Entity(EntityType::CHEST, name, description, location) {
     this->inventory = std::make_unique<Inventory>(inventory);
 }
 
-Chest::Chest(std::string name, std::string description, Location location, const Inventory&& inventory) : Entity(EntityType::CHEST, name, description, location) {
-    this->inventory = std::make_unique<Inventory>(std::move(inventory));
-}
 
 bool Chest::interact(Entity& entity) {
     if (entity.getType() == EntityType::PLAYER) {
@@ -24,13 +21,13 @@ bool Chest::interact(Entity& entity) {
         }
 
         if (this->inventory->isEmpty()) {
-            GameManager::getInstance().pushActionMessage("The chest is empty.");
+            GameManager::getInstance().pushActionMessage(L"The chest is empty.");
         }
         else {
-            GameManager::getInstance().pushActionMessage("You zero out the chest.");
+            GameManager::getInstance().pushActionMessage(L"You clear out the chest.");
             for (auto& item : this->inventory->getItems()) {
                 player->getInventory().addItem(item);
-                this->inventory->removeItem(item);
+                this->inventory->removeItem(*item);
             }
         }
 

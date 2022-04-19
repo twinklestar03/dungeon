@@ -12,26 +12,26 @@ RoomObject::ObjectType RoomObject::getType() {
     return type;
 }
 
-std::string RoomObject::getIcon() {
+std::wstring RoomObject::getIcon() {
     switch (type) {
         case ObjectType::NONE:
             //return "?";
-            return "❓";
+            return L"❓";
         case ObjectType::WALL:
             //return "=";
-            return "牆";
+            return L"🧱";
             //return "\033[38;2;142;142;142m牆\033[0m";
         case ObjectType::DIRT:
             //return ".";
-            return "🐾";
+            return L"🐾";
             //return "\033[38;2;155;118;83m🐾\033[0m";
         case ObjectType::GRASS:
             //return ",";
-            return "🌱";
+            return L"🌱";
             //return "\033[38;2;126;200;80m🌱\033[0m";
         default:
             //return "?";
-            return "❓";
+            return L"❓";
     }
 }
 

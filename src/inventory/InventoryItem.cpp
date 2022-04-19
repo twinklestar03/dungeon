@@ -1,14 +1,17 @@
 #include "inventory/InventoryItem.hpp"
 
+#include "entity/Player.hpp"
+#include "game/GameManager.hpp"
+
 
 InventoryItem::InventoryItem() {
     item_type = ItemType::NONE;
-    icon = "❌";
-    setName("No Item");
-    setDescription("");
+    icon = L"❌";
+    setName(L"No Item");
+    setDescription(L"");
 }
 
-InventoryItem::InventoryItem(ItemType type, std::string icon, std::string name, std::string description)
+InventoryItem::InventoryItem(ItemType type, std::wstring icon, std::wstring name, std::wstring description)
     : Object(name, description), item_type(type), icon(icon) {
 }
 
@@ -20,7 +23,16 @@ InventoryItem::ItemType InventoryItem::getItemType() {
     return item_type;
 }
 
-void InventoryItem::use(std::shared_ptr<Entity> user) {
+void InventoryItem::use(Entity& user) {
+    if (user.getType() == Entity::EntityType::PLAYER) {
+        Player* player = dynamic_cast<Player*>(&user);
+
+        if (player == nullptr) {
+            GameManager::getInstance().pushActionMessage(L"[ERROR] [InventoryItem::use]: Player Object cannot be referenced.");
+        }
+
+        GameManager::getInstance().pushActionMessage(L"❌ This item cannot be use directly.");
+    }
 }
 
 bool InventoryItem::operator< (const InventoryItem &rhs) const {

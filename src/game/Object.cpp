@@ -3,15 +3,15 @@
 
 uint32_t Object::global_id_counter = 0;
 
-Object::Object(std::string name, std::string description) : name(name), description(description) {
+Object::Object(std::wstring name, std::wstring description) : name(name), description(description) {
     this->unique_id = Object::global_id_counter++;
 }
 
-void Object::setName(std::string name) {
+void Object::setName(std::wstring name) {
     this->name = name;
 }
 
-void Object::setDescription(std::string description) {
+void Object::setDescription(std::wstring description) {
     this->description = description;
 }
 
@@ -19,11 +19,11 @@ void Object::setDeleted(bool deleted) {
     this->is_deleted = deleted;
 }
 
-std::string Object::getName() const {
+std::wstring Object::getName() const {
     return this->name;
 }
 
-std::string Object::getDescription() const {
+std::wstring Object::getDescription() const {
     return this->description;
 }
 

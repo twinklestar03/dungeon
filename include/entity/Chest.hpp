@@ -5,9 +5,9 @@
 
 class Chest : public Entity {
 public:
-    Chest(std::string name, std::string description, Location location);
-    Chest(std::string name, std::string description, Location location, const Inventory& inventory);
-    Chest(std::string name, std::string description, Location location, const Inventory&& inventory);
+    Chest(std::wstring name, std::wstring description, Location location);
+    Chest(std::wstring name, std::wstring description, Location location, Inventory& inventory);
+
     ~Chest() = default;
 
     void setInventory(const Inventory& inventory);

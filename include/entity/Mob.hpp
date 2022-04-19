@@ -16,8 +16,8 @@ public:
         DEAD,
     };
 
-    Mob(std::string name, std::string description, Location location);
-    Mob(std::string icon, std::string name, std::string description, Location location);
+    Mob(std::wstring name, std::wstring description, Location location);
+    Mob(std::wstring icon, std::wstring name, std::wstring description, Location location);
 
     void setInventory(const Inventory& inventory);
     Inventory& getInventory();

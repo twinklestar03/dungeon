@@ -13,13 +13,13 @@ public:
         NONE,
     };
 
-    Potion(std::string name, std::string description, uint32_t level, uint32_t amount);
+    Potion(std::wstring name, std::wstring description, uint32_t level, uint32_t amount);
     ~Potion() = default;
 
     void setPotionType(PotionType potion_type);
     PotionType getPotionType();
 
-    void use(std::shared_ptr<Entity> target);
+    void use(Entity& target);
 
 private:
     uint32_t level;

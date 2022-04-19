@@ -15,7 +15,7 @@ public:
     void setType(ObjectType type);
     ObjectType getType();
     
-    std::string getIcon();
+    std::wstring getIcon();
 
     bool canWalk();
 

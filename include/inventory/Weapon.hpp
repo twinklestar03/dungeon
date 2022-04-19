@@ -12,12 +12,14 @@ public:
         NONE,
     };
 
-    Weapon(std::string name, std::string description, uint32_t level, uint32_t base);
+    Weapon(std::wstring name, std::wstring description, uint32_t level, uint32_t base);
     ~Weapon() = default;
 
     void setWeaponType(WeaponType weapon_type);
     WeaponType getWeaponType();
     uint32_t getDamage();
+
+    void use(Entity& target);
 
 private:
     WeaponType type;

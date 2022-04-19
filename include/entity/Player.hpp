@@ -8,7 +8,7 @@
 
 class Player : public Entity {
 public:
-    Player(std::string name, std::string description, Location location);
+    Player(std::wstring name, std::wstring description, Location location);
 
     void setInventory(const Inventory& inventory);
     void setInventory(const Inventory&& inventory);

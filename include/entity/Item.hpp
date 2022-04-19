@@ -6,7 +6,7 @@
 
 class Item : public Entity {
 public:
-    Item(std::string name, std::string descripton, Location location);
+    Item(std::wstring name, std::wstring descripton, Location location);
     ~Item();
 
     bool interact(Entity& entity) override; 

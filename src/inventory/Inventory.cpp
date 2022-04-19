@@ -2,7 +2,7 @@
 
 
 Inventory::Inventory() {
-    item_list = std::vector<InventoryItem>();
+    item_list = std::vector<std::shared_ptr<InventoryItem>>();
 
     weapon = InventoryItem();
     helmet = InventoryItem();
@@ -21,16 +21,16 @@ bool Inventory::isEmpty() {
 
 bool Inventory::hasItem(InventoryItem item) {
     for (auto& i : item_list) {
-        if (i == item) {
+        if (*i == item) {
             return true;
         }
     }
     return false;
 }
 
-bool Inventory::hasItem(std::string item_name) {
+bool Inventory::hasItem(std::wstring item_name) {
     for (auto& i : item_list) {
-        if (i.getName() == item_name) {
+        if (i->getName() == item_name) {
             return true;
         }
     }
@@ -39,7 +39,7 @@ bool Inventory::hasItem(std::string item_name) {
 
 bool Inventory::hasItem(uint32_t item_id) {
     for (auto& i : item_list) {
-        if (i.getUniqueId() == item_id) {
+        if (i->getUniqueId() == item_id) {
             return true;
         }
     }
@@ -47,6 +47,14 @@ bool Inventory::hasItem(uint32_t item_id) {
 }
 
 bool Inventory::addItem(InventoryItem item) {
+    if (item_list.size() < INVENTORY_SIZE) {
+        item_list.push_back(std::make_shared<InventoryItem>(item));
+        return true;
+    }
+    return false;
+}
+
+bool Inventory::addItem(std::shared_ptr<InventoryItem> item) {
     if (item_list.size() < INVENTORY_SIZE) {
         item_list.push_back(item);
         return true;
@@ -56,16 +64,16 @@ bool Inventory::addItem(InventoryItem item) {
 
 void Inventory::removeItem(InventoryItem item) {
     for (auto it = item_list.begin(); it != item_list.end(); it++) {
-        if (*it == item) {
+        if (**it == item) {
             item_list.erase(it);
             break;
         }
     }
 }
 
-void Inventory::removeItem(std::string item_name) {
+void Inventory::removeItem(std::wstring item_name) {
     for (auto it = item_list.begin(); it != item_list.end(); it++) {
-        if (it->getName() == item_name) {
+        if ((*it)->getName() == item_name) {
             item_list.erase(it);
             break;
         }
@@ -74,7 +82,7 @@ void Inventory::removeItem(std::string item_name) {
 
 void Inventory::removeItem(uint32_t item_id) {
     for(auto it = item_list.begin(); it != item_list.end(); it++) {
-        if (it->getUniqueId() == item_id) {
+        if ((*it)->getUniqueId() == item_id) {
             item_list.erase(it);
             break;
         }
@@ -131,7 +139,7 @@ InventoryItem Inventory::getWeapon() {
     return this->weapon;
 }  
 
-std::vector<InventoryItem> Inventory::getItems() {
+std::vector<std::shared_ptr<InventoryItem>> Inventory::getItems() {
     return this->item_list;
 }
 

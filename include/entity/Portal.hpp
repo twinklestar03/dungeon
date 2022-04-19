@@ -6,8 +6,8 @@
 
 class Portal : public Entity {
 public:
-    Portal(std::string name, std::string description, Location location);
-    Portal(std::string name, std::string description, Location location, Location destination);
+    Portal(std::wstring name, std::wstring description, Location location);
+    Portal(std::wstring name, std::wstring description, Location location, Location destination);
 
     void setDestination(Location destination);
     Location getDestination();

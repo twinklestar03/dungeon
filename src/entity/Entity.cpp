@@ -5,46 +5,46 @@
 #include <math.h>
 
 
-Entity::Entity(EntityType type, std::string name, std::string description, Location location) 
+Entity::Entity(EntityType type, std::wstring name, std::wstring description, Location location) 
     : Object(name, description), type(type), location(location) {
 }
 
-Entity::Entity(EntityType type, std::string icon, std::string name, std::string description, Location location) 
+Entity::Entity(EntityType type, std::wstring icon, std::wstring name, std::wstring description, Location location) 
     : Object(name, description), type(type), location(location), icon(icon) {
 }
 
 Entity::~Entity() {
-    GameManager::getInstance().pushActionMessage("DEBUG: Entity (" + this->getName() + ") is being deleted.");
+    GameManager::getInstance().pushActionMessage(L"DEBUG: Entity (" + this->getName() + L") is being deleted.");
 }
 
 Entity::EntityType Entity::getType() const {
     return type;
 }
 
-std::string Entity::getIcon() const {
-    if (icon != "") {
+std::wstring Entity::getIcon() const {
+    if (icon != L"") {
         return icon;
     }
     
     switch(type) {
         case EntityType::CHEST:
-            return "📦";
+            return L"📦";
         case EntityType::DOOR:
-            return "🚪";
+            return L"🚪";
         case EntityType::ITEM:
-            return "㊠";
+            return L"㊠";
         case EntityType::MOB:
-            return "👿";
+            return L"👿";
         case EntityType::NPC:
-            return "🥳";
+            return L"🥳";
         case EntityType::SIGN:
-            return "🪧";
+            return L"🪧";
         case EntityType::PLAYER:
-            return "😎";
+            return L"😎";
         case EntityType::PORTAL:
-            return "✨";
+            return L"✨";
         default:
-            return "❓";
+            return L"❓";
     }
 }
 
@@ -121,8 +121,8 @@ int32_t Entity::hurt(int32_t damage) {
             if (mob != nullptr) {
                 GameManager::getInstance().addEntity(
                     std::make_shared<Chest>(
-                        "Chest",
-                        "Loots from " + this->getName(),
+                        L"Dropped loots",
+                        L"Loots from " + this->getName(),
                         mob->getLocation(),
                         mob->getInventory()
                     )

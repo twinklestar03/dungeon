@@ -3,12 +3,12 @@
 #include "game/GameManager.hpp"
 
 
-Mob::Mob(std::string name, std::string description, Location location)
+Mob::Mob(std::wstring name, std::wstring description, Location location)
     : Entity(EntityType::MOB, name, description, location) {
     inventory = std::make_unique<Inventory>();
 }
 
-Mob::Mob(std::string icon, std::string name, std::string description, Location location)
+Mob::Mob(std::wstring icon, std::wstring name, std::wstring description, Location location)
     : Entity(EntityType::MOB, icon, name, description, location) {
     inventory = std::make_unique<Inventory>();
 }
@@ -38,14 +38,16 @@ bool Mob::interact(Entity& entity) {
 
         int32_t damage = player->getDamage();
         int32_t remain_health = this->hurt(damage);
-        std::cout << "You hit " << this->getName() << " for " << damage << " damage." << std::endl;
+        //std::cout << "You hit " << this->getName() << " for " << damage << " damage." << std::endl;
+        GameManager::getInstance().pushActionMessage(
+            L"You hit " + this->getIcon() + L" " + this->getName() + L" for " + std::to_wstring(damage) + L" damage.");
 
         if (remain_health <= 0) {
-            GameManager::getInstance().pushActionMessage("😎😎😎🈹 You killed " + this->getName());
+            GameManager::getInstance().pushActionMessage(L"😎😎😎🈹 You killed " + this->getName());
             this->brain = ThinkState::DEAD;
         } 
         else {
-            GameManager::getInstance().pushActionMessage(this->getName() + " has " + std::to_string(this->getHealth()) + " ❤️ health left");
+            GameManager::getInstance().pushActionMessage(this->getName() + L" has " + std::to_wstring(this->getHealth()) + L" ❤️ health left");
             this->brain = ThinkState::IDLE;
         }
         return true;

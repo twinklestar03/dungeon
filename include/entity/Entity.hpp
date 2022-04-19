@@ -21,12 +21,12 @@ public:
         NONE
     };
 
-    Entity(EntityType type, std::string name, std::string descripton, Location location);
-    Entity(EntityType type, std::string icon, std::string name, std::string descripton, Location location);
+    Entity(EntityType type, std::wstring name, std::wstring descripton, Location location);
+    Entity(EntityType type, std::wstring icon, std::wstring name, std::wstring descripton, Location location);
     virtual ~Entity();
 
     EntityType getType() const;
-    std::string getIcon() const;
+    std::wstring getIcon() const;
 
     void setLocation(Location location);
     void setMaxHealth(int32_t maxHealth);
@@ -59,7 +59,7 @@ protected:
 
     Location location;
 
-    std::string icon = "";
+    std::wstring icon = L"";
 
     int32_t max_health = 20;
     int32_t health = 20;

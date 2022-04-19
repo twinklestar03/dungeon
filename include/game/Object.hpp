@@ -6,18 +6,18 @@
 class Object {
 public:
     Object() = default;
-    Object(std::string name, std::string description);
+    Object(std::wstring name, std::wstring description);
     ~Object() = default;
 
-    void setName(std::string name);
-    void setDescription(std::string description);
+    void setName(std::wstring name);
+    void setDescription(std::wstring description);
 
     /* If current object need to be purge out from global object list */
     /* Set this flag */
     void setDeleted(bool deleted);
 
-    std::string getName() const;
-    std::string getDescription() const;
+    std::wstring getName() const;
+    std::wstring getDescription() const;
     uint32_t getUniqueId() const;
     bool isDeleted() const;
 
@@ -30,8 +30,8 @@ private:
     /* For global object removal */
     bool is_deleted = false;
 
-    std::string name;
-    std::string description;
+    std::wstring name;
+    std::wstring description;
 
     /* Use to identify object equality, generate at object construction */
     uint32_t unique_id;

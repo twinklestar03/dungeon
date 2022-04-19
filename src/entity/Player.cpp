@@ -3,7 +3,7 @@
 #include "game/GameManager.hpp"
 
 
-Player::Player(std::string name, std::string description, Location location)
+Player::Player(std::wstring name, std::wstring description, Location location)
     : Entity(EntityType::PLAYER, name, description, location) {
     inventory = std::make_unique<Inventory>();
 }
@@ -27,9 +27,9 @@ bool Player::interact(Entity& entity) {
             int32_t damage = mob->getDamage();
             int32_t remain_health = this->hurt(damage);
             GameManager::getInstance().pushActionMessage(
-                "You been hit for " + std::to_string(damage) + " damage by " + mob->getIcon() + " " + mob->getName());
+                L"You been hit for " + std::to_wstring(damage) + L" damage by " + mob->getIcon() + L" " + mob->getName());
             GameManager::getInstance().pushActionMessage(
-                "Your remain ❤️ " + std::to_string(remain_health));
+                L"Your remain ❤️ " + std::to_wstring(remain_health));
         }
     }
     return true;

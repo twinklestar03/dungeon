@@ -19,17 +19,17 @@ public:
     };
 
     InventoryItem();
-    InventoryItem(ItemType type, std::string icon, std::string name, std::string description);
+    InventoryItem(ItemType type, std::wstring icon, std::wstring name, std::wstring description);
     ~InventoryItem() = default;
 
     void setItemType(ItemType item_type);
     ItemType getItemType();
 
-    virtual void use(std::shared_ptr<Entity> target);
+    virtual void use(Entity& target);
 
     bool operator< (const InventoryItem &rhs) const;
 
 private:
     ItemType item_type;
-    std::string icon;
+    std::wstring icon;
 };

@@ -5,10 +5,10 @@
 
 class Key : public InventoryItem {
 public:
-    Key(std::string name, std::string description);
+    Key(std::wstring name, std::wstring description);
     ~Key() = default;
 
-    void use(std::shared_ptr<Entity> user) override;
+    void use(Entity& user) override;
 
 private:
 };
