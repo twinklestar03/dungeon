@@ -6,14 +6,14 @@
 class Potion : public InventoryItem {
 public:
     enum class PotionType {
+        NONE,
         HEAL,
         DAMAGE,
         INVISIBLE,
         UNBREAKABLE,
-        NONE,
     };
 
-    Potion(std::wstring name, std::wstring description, uint32_t level, uint32_t amount);
+    Potion(PotionType type, std::wstring name, std::wstring description, uint32_t level, uint32_t amount);
     ~Potion() = default;
 
     void setPotionType(PotionType potion_type);
@@ -22,6 +22,7 @@ public:
     void use(Entity& target);
 
 private:
+    PotionType potion_type;
     uint32_t level;
     uint32_t amount;
 };

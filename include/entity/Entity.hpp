@@ -46,6 +46,7 @@ public:
 
     /* Deal amount of damage to this entity */
     int32_t hurt(int32_t damage);
+    int32_t heal(int32_t heal);
 
     /* Calculate current strike damege. */
     int32_t getDamage();

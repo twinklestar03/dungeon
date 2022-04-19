@@ -142,6 +142,16 @@ int32_t Entity::hurt(int32_t damage) {
     return this->health;
 }
 
+int32_t Entity::heal(int32_t heal) {
+    this->health += heal;
+
+    if (this->health > this->max_health) {
+        this->health = this->max_health;
+    }
+
+    return this->health;
+}
+
 int32_t Entity::getDamage() {
     std::default_random_engine generator( time(NULL) );
     std::uniform_real_distribution<double> unif(0.0, 1.0);
