@@ -1,7 +1,8 @@
 #include "game/GameManager.hpp"
 
-#include "entity/Mob.hpp"
 #include "entity/Door.hpp"
+#include "entity/Item.hpp"
+#include "entity/Mob.hpp"
 #include "entity/Portal.hpp"
 
 #include "inventory/Key.hpp"
@@ -132,11 +133,12 @@ void GameManager::handleInteraction() {
     interact_options.push_back(L"c. Interact With Surroundings");
     interact_options.push_back(L"f. Inspect Objects");
     interact_options.push_back(L"i. Use items in inventory");
+    interact_options.push_back(L"g. Drop items in inventory");
     drawAll();
 
     // Loop until we get a valid input.
     uint32_t ch = 0;
-    while (ch != 'w' && ch != 's' && ch != 'a' && ch != 'd' && ch != 'c' && ch != 'i' && ch != 'f') {
+    while (ch != 'w' && ch != 's' && ch != 'a' && ch != 'd' && ch != 'c' && ch != 'i' && ch != 'f' && ch != 'g') {
         ch = mvwgetch(interact_window, 1, 1);
 
         if (ch == 'w' || ch == 's' || ch == 'a' || ch == 'd') {
@@ -282,6 +284,36 @@ void GameManager::handleInteraction() {
             pushActionMessage(L"Invalid option...");
             return;
 
+        }
+        else if (ch == 'g') {
+            interact_options.clear();
+            std::vector<std::shared_ptr<InventoryItem>> assessible;
+            for (size_t i = 0; i < player->getInventory().getItems().size(); i++) {
+                assessible.push_back(player->getInventory().getItems()[i]);
+                interact_options.push_back(
+                    std::to_wstring(assessible.size() - 1) + L". " + player->getInventory().getItems().at(i)->getName());
+            }
+            if (assessible.size() < 1) {
+                interact_options.clear();
+                pushActionMessage(L"Nothing in your inventory.");
+                drawInteractionMenu();
+                return;
+            }
+            drawInteractionMenu();
+
+            ch = mvwgetch(interact_window, 1, 1);
+            if (ch - '0' < assessible.size() && ch - '0' >= 0) {
+                pushActionMessage(L"You dropped " + assessible[ch - '0']->getName());
+                object_list.push_back(std::make_shared<Item>(assessible[ch - '0']->getName(), assessible[ch - '0']->getDescription(), player->getLocation(), *assessible[ch - '0']));
+                player->getInventory().removeItem(*assessible[ch - '0']);
+                return;
+            }
+            else if (ch == 'q') {
+                pushActionMessage(L"You leave the Inventory menu");
+                return;
+            }
+            pushActionMessage(L"Invalid option...");
+            return;
         }
 
         return;
