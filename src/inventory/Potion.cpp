@@ -29,6 +29,7 @@ void Potion::use(Entity& target) {
         switch (potion_type) {
             case PotionType::HEAL: 
                 remain = player->heal(amount * level);
+                player->getInventory().removeItem(*this);
                 GameManager::getInstance().pushActionMessage(L"You drink a potion of healing.");
                 GameManager::getInstance().pushActionMessage(L"You now have ❤️ " + std::to_wstring(remain));
                 break;

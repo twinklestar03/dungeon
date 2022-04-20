@@ -109,25 +109,22 @@ bool Entity::interact(Entity& entity) {
 }
 
 int32_t Entity::hurt(int32_t damage) {
-    this->health -= damage;
+    int32_t final_dmg = damage - this->defense;
+    this->health -= final_dmg > 0 ? final_dmg : 0;
 
     // Trigger onDeath event.
     if (this->health <= 0) {
-
         // Dropping items if the entity is a mob.
         if (this->type == EntityType::MOB) {
             Mob* mob = dynamic_cast<Mob*>(this);
-
-            if (mob != nullptr) {
-                GameManager::getInstance().addEntity(
-                    std::make_shared<Chest>(
-                        L"Dropped loots",
-                        L"Loots from " + this->getName(),
-                        mob->getLocation(),
-                        mob->getInventory()
-                    )
-                );
-            }
+            GameManager::getInstance().addEntity(
+                std::make_shared<Chest>(
+                    L"Dropped loots",
+                    L"Loots from " + this->getName(),
+                    mob->getLocation(),
+                    mob->getInventory()
+                )
+            );
         }
 
         if (this->type == EntityType::PLAYER) {
@@ -155,10 +152,10 @@ int32_t Entity::heal(int32_t heal) {
 int32_t Entity::getDamage() {
     std::default_random_engine generator( time(NULL) );
     std::uniform_real_distribution<double> unif(0.0, 1.0);
-    std::uniform_int_distribution<int32_t> uni_atk(2, 3);
+    std::uniform_int_distribution<int32_t> uni_atk(1.2, 2);
     double final_luck = unif(generator) * this->luck;
     
-    if (final_luck > 0.3) {
+    if (final_luck > 0.8) {
         return attack * uni_atk(generator);
     }
     return attack;

@@ -23,6 +23,18 @@ InventoryItem::ItemType InventoryItem::getItemType() {
     return item_type;
 }
 
+void InventoryItem::setDefense(int32_t def) {
+    defense = def;
+}
+
+int32_t InventoryItem::getDefense() const {
+    return defense;
+}
+
+std::wstring InventoryItem::getIcon() const {
+    return icon;
+}
+
 void InventoryItem::use(Entity& user) {
     if (user.getType() == Entity::EntityType::PLAYER) {
         Player* player = dynamic_cast<Player*>(&user);

@@ -12,6 +12,9 @@ Chest::Chest(std::wstring name, std::wstring description, Location location, Inv
     this->inventory = std::make_unique<Inventory>(inventory);
 }
 
+Inventory& Chest::getInventory() {
+    return *inventory;
+}
 
 bool Chest::interact(Entity& entity) {
     if (entity.getType() == EntityType::PLAYER) {

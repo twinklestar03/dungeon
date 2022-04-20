@@ -14,6 +14,8 @@ public:
     void setInventory(const Inventory&& inventory);
     Inventory& getInventory();
 
+    void update();
+
     bool interact(Entity& entity) override; 
 
 private:

@@ -20,6 +20,23 @@ Inventory& Player::getInventory() {
     return *inventory;
 }
 
+void Player::update() {
+    defense = 0;
+
+    if (inventory->getHelmet() != nullptr) {
+        defense += inventory->getHelmet()->getDefense();
+    }
+    if (inventory->getChestplate() != nullptr) {
+        defense += inventory->getChestplate()->getDefense();
+    }
+    if (inventory->getLeggings() != nullptr) {
+        defense += inventory->getLeggings()->getDefense();
+    }
+    if (inventory->getBoots() != nullptr) {
+        defense += inventory->getBoots()->getDefense();
+    }
+}
+
 bool Player::interact(Entity& entity) {
     if (entity.getType() == EntityType::MOB) {
         auto mob = dynamic_cast<Mob*>(&entity);

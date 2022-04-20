@@ -26,8 +26,8 @@ void Mob::think(std::vector<std::shared_ptr<Entity>> entity_list) {
     Entity& target = GameManager::getInstance().getPlayer();
 
     Location normalized = (target.getLocation() - this->getLocation()).normailize();
-    GameManager::getInstance().pushActionMessage(L"[DEBUG] (Mob::think) Normalized: ");
-    GameManager::getInstance().pushActionMessage(L"[DEBUG] y: " + std::to_wstring(normalized.getY()) + L" x: " + std::to_wstring(normalized.getX()));
+    //GameManager::getInstance().pushActionMessage(L"[DEBUG] (Mob::think) Normalized: ");
+    //GameManager::getInstance().pushActionMessage(L"[DEBUG] y: " + std::to_wstring(normalized.getY()) + L" x: " + std::to_wstring(normalized.getX()));
     // Unable to find a path to the player.
     if (!GameManager::getInstance().handleMovement(this, (target.getLocation() - this->getLocation()).normailize() )) {
         return;

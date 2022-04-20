@@ -1,11 +1,17 @@
 #include "game/GameManager.hpp"
 
+#include "entity/Chest.hpp"
 #include "entity/Door.hpp"
 #include "entity/Item.hpp"
 #include "entity/Mob.hpp"
 #include "entity/Portal.hpp"
 
 #include "inventory/Key.hpp"
+#include "inventory/Potion.hpp"
+#include "inventory/Helmet.hpp"
+#include "inventory/Chestplate.hpp"
+#include "inventory/Leggings.hpp"
+#include "inventory/Boots.hpp"
 
 
 std::unique_ptr<GameManager> GameManager::g_instance = nullptr;
@@ -94,36 +100,73 @@ void GameManager::createWindows() {
 }
 
 void GameManager::createMap() {
-    // Room initialization.
-    std::shared_ptr<Room> lobby = std::make_shared<Room>(L"Lobby", L"Room Object", 15, 15);
-    
+    std::shared_ptr<Room> mob_room = std::make_shared<Room>(L"mob_room", L"Room Object", 15, 15);
+    std::shared_ptr<Room> chest_room = std::make_shared<Room>(L"Room_1", L"Room Object", 20, 10);
+    /* 
+     *  Mob Room
+     */
     // Setting up a wall.
     for (size_t i = 0; i < 15; ++i) {
         if (i != 5)
-            lobby->setRoomObject({5, i}, std::make_shared<RoomObject>(RoomObject::ObjectType::WALL));
+            mob_room->setRoomObject({5, i}, std::make_shared<RoomObject>(RoomObject::ObjectType::WALL));
     }
 
-    std::shared_ptr<Room> mob_room_1 = std::make_shared<Room>(L"Room_1", L"Room Object", 20, 10);
-    room_list.push_back(lobby);
-    room_list.push_back(mob_room_1);
-
     // Generate entities (Mobs, Portals, NPCs).
-    std::shared_ptr<Mob> mob = std::make_shared<Mob>(L"🤢", L"Slime", L"A normal silme", Location(lobby->getName(), 3, 14));
-    std::shared_ptr<Key> key = std::make_shared<Key>(L"A old key", L"A key seems old.");
+    std::shared_ptr<Mob> mob;
+    std::shared_ptr<Key> key;
+    mob = std::make_shared<Mob>(L"🤢", L"Slime", L"A normal silme", Location(mob_room->getName(), 3, 14));
+    mob->setMaxHealth(8);
+    mob->setHealth(8);
+    mob->setAttack(2);
+    key = std::make_shared<Key>(L"A old key", L"A key seems old.");
     mob->getInventory().addItem(key);
+    mob->getInventory().addItem(std::make_shared<Potion>(Potion::PotionType::HEAL, L"Small Heal Potion", L"Heal ❤️ 5", 1, 5));
     object_list.push_back(mob);
 
-    std::shared_ptr<Door> door = std::make_shared<Door>(L"Door", L"Door Object", Location(lobby->getName(), 5, 5), key->getName());
+    std::shared_ptr<Door> door = std::make_shared<Door>(L"Door", L"A locked door.", Location(mob_room->getName(), 5, 5), key->getName());
     object_list.push_back(door);
 
-    std::shared_ptr<Portal> portal_1 = std::make_shared<Portal>(L"To Room 1", L"Portal Object", Location(lobby->getName(), 10, 10), Location(mob_room_1->getName(), 3, 3));
+    std::shared_ptr<Portal> portal_1 = std::make_shared<Portal>(L"Portal", L"Go to next Room", Location(mob_room->getName(), 10, 10), Location(chest_room->getName(), 3, 3));
     object_list.push_back(portal_1);
+
+    /* 
+     *  Chest Room
+     */
+    // Setting up a wall.
+    for (size_t i = 0; i < 10; ++i) {
+        if (i != 5)
+            chest_room->setRoomObject({10, i}, std::make_shared<RoomObject>(RoomObject::ObjectType::WALL));
+    }
+    std::shared_ptr<Chest> chest = std::make_shared<Chest>(L"Chest", L"A chest.", Location(chest_room->getName(), 1, 2));
+    std::shared_ptr<Key> key_1 = std::make_shared<Key>(L"Key to the portal", L"This key seems old.");
+    std::shared_ptr<Door> door_1 = std::make_shared<Door>(L"Door", L"A locked door.", Location(chest_room->getName(), 10, 5), key_1->getName());
+    object_list.push_back(door_1);
+    object_list.push_back(chest);
+    chest = std::make_shared<Chest>(L"Chest", L"A chest.", Location(chest_room->getName(), 2, 2));
+    object_list.push_back(chest);
+    chest = std::make_shared<Chest>(L"Chest", L"A chest.", Location(chest_room->getName(), 3, 2));
+    object_list.push_back(chest);
+    chest = std::make_shared<Chest>(L"Chest", L"A chest.", Location(chest_room->getName(), 4, 2));
+    chest->getInventory().addItem(key_1);
+    object_list.push_back(chest);
+    chest = std::make_shared<Chest>(L"Chest", L"A chest.", Location(chest_room->getName(), 5, 2));
+    object_list.push_back(chest);
+
+    //std::shared_ptr<Portal> portal_2 = std::make_shared<Portal>(L"Portal", L"Go to next Room", Location(chest_room->getName(), 10, 10), Location(mob_room->getName(), 3, 14));
+
+    room_list.push_back(mob_room);
+    room_list.push_back(chest_room);
 }
 
 void GameManager::createPlayer() {
     std::wstring name = L"Test Player";
 
     player = std::make_shared<Player>(name, L"Player", Location(room_list[0]->getName(), 2, 2));
+    player->getInventory().addItem(std::make_shared<Helmet>(L"Leather helmet", L"Normal helmet", 1));
+    player->getInventory().addItem(std::make_shared<Helmet>(L"Golden helmet", L"Way better than the normal one", 10));
+    player->getInventory().addItem(std::make_shared<Chestplate>(L"Leather chestplate", L"Light defense", 1));
+    player->getInventory().addItem(std::make_shared<Leggings>(L"Leather leggings", L"Light defense", 1));
+    player->getInventory().addItem(std::make_shared<Boots>(L"Leather boots", L"Light defense", 1));
 }
 
 void GameManager::addEntity(std::shared_ptr<Entity> entity) {
@@ -227,7 +270,7 @@ void GameManager::handleInteraction() {
             }
             else if (ch == 'q') {
                 pushActionMessage(L"You leave the interact menu");
-                return;
+                return; 
             }
             pushActionMessage(L"Invalid option...");
             return;
@@ -270,7 +313,9 @@ void GameManager::handleInteraction() {
             for (size_t i = 0; i < player->getInventory().getItems().size(); i++) {
                 assessible.push_back(player->getInventory().getItems()[i]);
                 interact_options.push_back(
-                    std::to_wstring(assessible.size() - 1) + L". " + player->getInventory().getItems().at(i)->getName());
+                    std::to_wstring(assessible.size() - 1) + L". " 
+                    + player->getInventory().getItems().at(i)->getIcon() +
+                    L" " +  player->getInventory().getItems().at(i)->getName());
             }
             if (assessible.size() < 1) {
                 interact_options.clear();

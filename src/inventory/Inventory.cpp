@@ -1,14 +1,15 @@
 #include "inventory/Inventory.hpp"
 
+#include "game/GameManager.hpp"
 
 Inventory::Inventory() {
     item_list = std::vector<std::shared_ptr<InventoryItem>>();
 
-    weapon = InventoryItem();
-    helmet = InventoryItem();
-    chestplate = InventoryItem();
-    leggings = InventoryItem();
-    boots = InventoryItem();
+    weapon = nullptr;
+    helmet = nullptr;
+    chestplate = nullptr;
+    leggings = nullptr;
+    boots = nullptr;
 }
 
 Inventory::~Inventory() {
@@ -89,55 +90,64 @@ void Inventory::removeItem(uint32_t item_id) {
     }
 }
 
-void Inventory::setHelmet(InventoryItem helmet) {
-    if (helmet.getItemType() == InventoryItem::ItemType::HELMET) {
+void Inventory::setHelmet(std::shared_ptr<InventoryItem> helmet) {
+    if (helmet != nullptr) {
         this->helmet = helmet;
     }
 }
 
-void Inventory::setChestplate(InventoryItem chestplate) {
-    if (chestplate.getItemType() == InventoryItem::ItemType::CHESTPLATE) {
+void Inventory::setChestplate(std::shared_ptr<InventoryItem> chestplate) {
+    if (chestplate != nullptr) {
         this->chestplate = chestplate;
     }
 }
 
-void Inventory::setLeggings(InventoryItem leggings) {
-    if (leggings.getItemType() == InventoryItem::ItemType::LEGGINGS) {
+void Inventory::setLeggings(std::shared_ptr<InventoryItem> leggings) {
+    if (leggings != nullptr) {
         this->leggings = leggings;
     }
 }
 
-void Inventory::setBoots(InventoryItem boots) {
-    if (boots.getItemType() == InventoryItem::ItemType::BOOTS) {
+void Inventory::setBoots(std::shared_ptr<InventoryItem> boots) {
+    if (boots != nullptr) {
         this->boots = boots;
     }
 }
 
-void Inventory::setWeapon(InventoryItem weapon) {
-    if (weapon.getItemType() == InventoryItem::ItemType::WEAPON) {
+void Inventory::setWeapon(std::shared_ptr<InventoryItem> weapon) {
+    if (weapon != nullptr) {
         this->weapon = weapon;
     }
 }
 
-InventoryItem Inventory::getHelmet() {
+std::shared_ptr<InventoryItem> Inventory::getItem(InventoryItem item) {
+    for (auto& i : item_list) {
+        if (*i == item) {
+            return i;
+        }
+    }
+    return nullptr;
+}
+
+std::shared_ptr<InventoryItem> Inventory::getHelmet() {
     return this->helmet;
 }
 
-InventoryItem Inventory::getChestplate() {
+std::shared_ptr<InventoryItem> Inventory::getChestplate() {
     return this->chestplate;
 }
 
-InventoryItem Inventory::getLeggings() {
+std::shared_ptr<InventoryItem> Inventory::getLeggings() {
     return this->leggings;
 }
 
-InventoryItem Inventory::getBoots() {
+std::shared_ptr<InventoryItem> Inventory::getBoots() {
     return this->boots;
 }
 
-InventoryItem Inventory::getWeapon() {
+std::shared_ptr<InventoryItem> Inventory::getWeapon() {
     return this->weapon;
-}  
+}
 
 std::vector<std::shared_ptr<InventoryItem>> Inventory::getItems() {
     return this->item_list;

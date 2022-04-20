@@ -7,6 +7,7 @@
 class InventoryItem : public Object {
 public:
     enum class ItemType {
+        NONE,
         KEY,
         POTION,
         WEAPON,
@@ -15,7 +16,6 @@ public:
         LEGGINGS,
         BOOTS,
         ITEM,
-        NONE,
     };
 
     InventoryItem();
@@ -25,6 +25,11 @@ public:
     void setItemType(ItemType item_type);
     ItemType getItemType();
 
+    void setDefense(int32_t def);
+    int32_t getDefense() const;
+
+    std::wstring getIcon() const;
+
     virtual void use(Entity& target);
 
     bool operator< (const InventoryItem &rhs) const;
@@ -32,4 +37,6 @@ public:
 private:
     ItemType item_type;
     std::wstring icon;
+
+    int32_t defense = 0;
 };

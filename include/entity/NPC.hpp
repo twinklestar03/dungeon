@@ -10,6 +10,8 @@ public:
     NPC(std::wstring name, std::wstring description, Location location);
     ~NPC();
 
+    std::vector<InventoryItem> getInventoryItems() const;
+    
     bool interact(Entity& entity) override; 
 
 private:

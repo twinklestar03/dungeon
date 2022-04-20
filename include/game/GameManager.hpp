@@ -106,7 +106,6 @@ private:
 
     static std::unique_ptr<GameManager> g_instance;
 
-    std::shared_ptr<Room> current_room;
     std::vector<std::shared_ptr<Room>> room_list;
 
     std::shared_ptr<Player> player;
