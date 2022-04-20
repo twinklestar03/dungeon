@@ -70,6 +70,12 @@ public:
 
     void pushActionMessage(std::wstring);
 
+    void clearInteractOption();
+
+    void addInteractOption(std::wstring option);
+
+    char getInput(std::vector<char> accept);
+
     /* 
      * Check is movement valid and modify entity's location 
      * And collision detection on Entity and RoomObject. */

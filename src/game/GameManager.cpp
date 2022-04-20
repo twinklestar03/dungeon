@@ -1,9 +1,12 @@
 #include "game/GameManager.hpp"
 
+#include <algorithm>
+
 #include "entity/Chest.hpp"
 #include "entity/Door.hpp"
 #include "entity/Item.hpp"
 #include "entity/Mob.hpp"
+#include "entity/NPC.hpp"
 #include "entity/Portal.hpp"
 
 #include "inventory/Key.hpp"
@@ -152,6 +155,8 @@ void GameManager::createMap() {
     chest = std::make_shared<Chest>(L"Chest", L"A chest.", Location(chest_room->getName(), 5, 2));
     object_list.push_back(chest);
 
+    std::shared_ptr<NPC> npc = std::make_shared<NPC>(L"Item Giveaway", L"A shopper that rich af.", Location(chest_room->getName(), 3, 8));
+    object_list.push_back(npc);
     //std::shared_ptr<Portal> portal_2 = std::make_shared<Portal>(L"Portal", L"Go to next Room", Location(chest_room->getName(), 10, 10), Location(mob_room->getName(), 3, 14));
 
     room_list.push_back(mob_room);
@@ -189,10 +194,8 @@ void GameManager::handleInteraction() {
     drawAll();
 
     // Loop until we get a valid input.
-    uint32_t ch = 0;
-    while (ch != 'w' && ch != 's' && ch != 'a' && ch != 'd' && ch != 'c' && ch != 'i' && ch != 'f' && ch != 'g') {
-        ch = mvwgetch(interact_window, 1, 1);
-
+    char ch = getInput({'w', 's', 'a', 'd', 'c', 'i', 'f', 'g'});
+    while (ch != '\0') {
         if (ch == 'w' || ch == 's' || ch == 'a' || ch == 'd') {
             int x = 0, y = 0;
             if (ch == 'w') {
@@ -209,9 +212,9 @@ void GameManager::handleInteraction() {
             }
 
             if(handleMovement(player, Location(y, x))) {
-                pushActionMessage(L"You moved.");
+                pushActionMessage(L"🚶‍♀️ You moved.");
             } else {
-                pushActionMessage(L"You can't move there.");
+                pushActionMessage(L"❌ You can't move there.");
             }
         }
         else if (ch == 'c') {
@@ -402,9 +405,6 @@ void GameManager::drawMap() {
         }
     }
 
-    // Draw Player.
-    frame_map_data[player->getLocation().getY() - ly + 1][player->getLocation().getX() - lx + 1] = player->getIcon();
-
     // Draw other objects.
     for (auto it = object_list.begin(); it != object_list.end(); it++) {
         // Put object icon into frame_map_data if it is in the same room with player.
@@ -413,6 +413,8 @@ void GameManager::drawMap() {
         }
     }
 
+    // Draw Player.
+    frame_map_data[player->getLocation().getY() - ly + 1][player->getLocation().getX() - lx + 1] = player->getIcon();
     
     wclear(map_window);
     wborder(map_window, '|', '|', '-', '-', '+', '+', '+', '+');
@@ -491,10 +493,17 @@ bool GameManager::handleMovement(Entity* entity, Location offset) {
         return false;
     }
 
+    if (player->getLocation() == entity->getLocation() + offset) {
+        return false;
+    }
+
     // Checking object collidsion.
     for (auto it = object_list.begin(); it != object_list.end(); it++) {
         if ((**it).getLocation() == entity->getLocation() + offset) {
             if ((**it).getType() == Entity::EntityType::DOOR) {
+                return false;
+            }
+            if ((**it).getType() == Entity::EntityType::MOB) {
                 return false;
             }
         }
@@ -584,3 +593,18 @@ std::shared_ptr<Room> GameManager::findRoomByName(std::wstring name) const {
     return nullptr;
 }
 
+void GameManager::clearInteractOption() {
+    interact_options.clear();
+}
+
+void GameManager::addInteractOption(std::wstring option) {
+    interact_options.push_back(option);
+}
+
+char GameManager::getInput(std::vector<char> accept) {
+    char ch = mvwgetch(interact_window, 1, 1);
+    if (std::find(accept.begin(), accept.end(), ch) == accept.end()) {
+        return '\0';
+    }
+    return ch;
+}

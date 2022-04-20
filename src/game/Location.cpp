@@ -44,6 +44,8 @@ Location Location::normailize() {
 }
 
 double Location::distance(const Location& rsh) {
+    if (this->getRoomName() != rsh.getRoomName())
+        return 1e9;
     int32_t dx = this->x - rsh.getX();
     int32_t dy = this->y - rsh.getY();
     return sqrt(dx * dx + dy * dy);

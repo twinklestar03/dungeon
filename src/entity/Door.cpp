@@ -10,7 +10,7 @@ Door::Door(std::wstring name, std::wstring description, Location location, std::
 }
 
 Door::~Door() {
-    GameManager::getInstance().pushActionMessage(L"DEBUG: Door (" + this->getName() + L") is being deleted.");
+    //GameManager::getInstance().pushActionMessage(L"DEBUG: Door (" + this->getName() + L") is being deleted.");
 }
 
 void Door::setKeyName(std::wstring key_name) {

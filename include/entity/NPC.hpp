@@ -15,8 +15,9 @@ public:
     bool interact(Entity& entity) override; 
 
 private:
-    std::vector<InventoryItem> product;
-    std::map<InventoryItem, uint32_t> purchase_table;
+    std::vector<std::shared_ptr<InventoryItem>> product;
+    // ItemName: Price
+    std::map<std::wstring, uint32_t> purchase_table;
     /* map<ActionName, Result script> */
     std::map<std::wstring, std::wstring> script;
 };

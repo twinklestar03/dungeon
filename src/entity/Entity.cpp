@@ -14,7 +14,7 @@ Entity::Entity(EntityType type, std::wstring icon, std::wstring name, std::wstri
 }
 
 Entity::~Entity() {
-    GameManager::getInstance().pushActionMessage(L"DEBUG: Entity (" + this->getName() + L") is being deleted.");
+    //GameManager::getInstance().pushActionMessage(L"DEBUG: Entity (" + this->getName() + L") is being deleted.");
 }
 
 Entity::EntityType Entity::getType() const {

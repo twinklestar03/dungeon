@@ -24,10 +24,10 @@ bool Chest::interact(Entity& entity) {
         }
 
         if (this->inventory->isEmpty()) {
-            GameManager::getInstance().pushActionMessage(L"The chest is empty.");
+            GameManager::getInstance().pushActionMessage(L"🫙 The chest is empty.");
         }
         else {
-            GameManager::getInstance().pushActionMessage(L"You clear out the chest.");
+            GameManager::getInstance().pushActionMessage(L"🥳 You found something in the chest!");
             for (auto& item : this->inventory->getItems()) {
                 player->getInventory().addItem(item);
                 this->inventory->removeItem(*item);
