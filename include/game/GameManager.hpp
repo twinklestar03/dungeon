@@ -35,8 +35,13 @@ public:
     /* Game over */
     void gameOver();
 
+    /* Game win */
+    void gameWin();
+
     /* Create window. */
     void createWindows();
+
+    void destroyWindows();
 
     /* Draw action menu */
     void drawInteractionMenu();

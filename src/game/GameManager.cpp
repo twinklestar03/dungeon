@@ -4,6 +4,7 @@
 
 #include "entity/Chest.hpp"
 #include "entity/Door.hpp"
+#include "entity/Flag.hpp"
 #include "entity/Item.hpp"
 #include "entity/Mob.hpp"
 #include "entity/NPC.hpp"
@@ -102,9 +103,18 @@ void GameManager::createWindows() {
     //mnoecho();
 }
 
+void GameManager::destroyWindows() {
+    delwin(map_window);
+    delwin(message_window);
+    delwin(status_window);
+    delwin(interact_window);
+    endwin();
+}
+
 void GameManager::createMap() {
     std::shared_ptr<Room> mob_room = std::make_shared<Room>(L"mob_room", L"Room Object", 15, 15);
     std::shared_ptr<Room> chest_room = std::make_shared<Room>(L"Room_1", L"Room Object", 20, 10);
+    std::shared_ptr<Room> flag_room = std::make_shared<Room>(L"Room_2", L"Room Object", 10, 10);
     /* 
      *  Mob Room
      */
@@ -155,12 +165,16 @@ void GameManager::createMap() {
     chest = std::make_shared<Chest>(L"Chest", L"A chest.", Location(chest_room->getName(), 5, 2));
     object_list.push_back(chest);
 
-    std::shared_ptr<NPC> npc = std::make_shared<NPC>(L"Item Giveaway", L"A shopper that rich af.", Location(chest_room->getName(), 3, 8));
+    std::shared_ptr<NPC> npc = std::make_shared<NPC>(L"Item Giveaway", L"A shopper that rich af.", Location(chest_room->getName(), 15, 8));
     object_list.push_back(npc);
-    //std::shared_ptr<Portal> portal_2 = std::make_shared<Portal>(L"Portal", L"Go to next Room", Location(chest_room->getName(), 10, 10), Location(mob_room->getName(), 3, 14));
+    std::shared_ptr<Portal> portal_2 = std::make_shared<Portal>(L"Portal", L"Go to next Room", Location(chest_room->getName(), 15, 5), Location(flag_room->getName(), 3, 3));
+    object_list.push_back(portal_2);
+    std::shared_ptr<Flag> flag = std::make_shared<Flag>(L"Win Flag", L"The way the game ends.", Location(flag_room->getName(), 5, 5));
+    object_list.push_back(flag);
 
     room_list.push_back(mob_room);
     room_list.push_back(chest_room);
+    room_list.push_back(flag_room);
 }
 
 void GameManager::createPlayer() {
@@ -241,6 +255,9 @@ void GameManager::handleInteraction() {
                         break;
                     case Entity::EntityType::DOOR:
                         action = L"🔓Open";
+                        break;
+                    case Entity::EntityType::FLAG:
+                        action = L"End your journey";
                         break;
                     case Entity::EntityType::ITEM:
                         action = L"🫴Pick up";
@@ -556,27 +573,28 @@ void GameManager::startGame() {
 }
 
 void GameManager::gameOver() {
-    delwin(map_window);
-    delwin(interact_window);
-    delwin(message_window);
-    delwin(status_window);
+    destroyWindows();
 
     // Center the fucking ascii art.
-    WINDOW* final = newwin(FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT / 2 - 3, FRAME_WIDTH / 2 - 31 );
-    
-    wborder(final, '|', '|', '-', '-', '+', '+', '+', '+');
-    mvwaddwstr(final, 0, 0, L"   ___       .    __   __ .____    ___   __    __ .____  .___ ");
-    mvwaddwstr(final, 1, 0, L" .'   \\     /|    |    |  /      .'   `. |     |  /      /   \\");
-    mvwaddwstr(final, 2, 0, L" |         /  \\   |\\  /|  |__.   |     |  \\    /  |__.   |__-'");
-    mvwaddwstr(final, 3, 0, L" |    _   /---'\\  | \\/ |  |      |     |   \\  /   |      |  \\ ");
-    mvwaddwstr(final, 4, 0, L"  `.___|,'      \\ /    /  /----/  `.__.'    \\/    /----/ /   \\");
-    wrefresh(final);
+    std::cout << "   ___       .    __   __ .____    ___   __    __ .____  .___ "     << std::endl;
+    std::cout << " .'   \\     /|    |    |  /      .'   `. |     |  /      /   \\"   << std::endl;
+    std::cout << " |         /  \\   |\\  /|  |__.   |     |  \\    /  |__.   |__-'"  << std::endl;
+    std::cout << " |    _   /---'\\  | \\/ |  |      |     |   \\  /   |      |  \\ " << std::endl;
+    std::cout << "  `.___|,'      \\ /    /  /----/  `.__.'    \\/    /----/ /   \\"  << std::endl;
 
-    char ch = mvwgetch(final, 1, 1);
-    while (ch != 'q') {
-        ch = mvwgetch(final, 1, 1);
-    }
-    endwin();
+    exit(0);
+}
+
+void GameManager::gameWin() {
+    destroyWindows();
+
+    // Center the fucking ascii art.
+    std::cout << "   ___       .    __   __ .____    ___   __    __ .____  .___ "     << std::endl;
+    std::cout << " .'   \\     /|    |    |  /      .'   `. |     |  /      /   \\"   << std::endl;
+    std::cout << " |         /  \\   |\\  /|  |__.   |     |  \\    /  |__.   |__-'"  << std::endl;
+    std::cout << " |    _   /---'\\  | \\/ |  |      |     |   \\  /   |      |  \\ " << std::endl;
+    std::cout << "  `.___|,'      \\ /    /  /----/  `.__.'    \\/    /----/ /   \\"  << std::endl;
+    exit(0);
 }
 
 void GameManager::pushActionMessage(std::wstring message) {

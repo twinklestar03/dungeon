@@ -12,6 +12,7 @@ public:
     enum class EntityType {
         CHEST,
         DOOR,
+        FLAG,
         ITEM,
         MOB,
         NPC,

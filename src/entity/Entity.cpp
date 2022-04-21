@@ -31,6 +31,8 @@ std::wstring Entity::getIcon() const {
             return L"📦";
         case EntityType::DOOR:
             return L"🚪";
+        case EntityType::FLAG:
+            return L"🚩";
         case EntityType::ITEM:
             return L"㊠";
         case EntityType::MOB:
