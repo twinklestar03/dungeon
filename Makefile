@@ -1,6 +1,8 @@
 BIN     := ./bin
 SRC     := ./src
 
+MKDIR   := mkdir
+
 CC      := g++
 INCLUDE := -Iinclude
 LIB     := -lncursesw
